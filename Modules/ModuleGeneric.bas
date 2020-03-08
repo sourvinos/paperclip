@@ -550,7 +550,7 @@ Function ChangeEditButtonStatus(grdGrid As iGrid, strTag, lngRow, lngCol)
     
     If grdGrid.RowCount = 0 Or lngRow = 0 Or strTag = "Blank" Then Exit Function
     
-    'If grdGrid.CellValue(lngRow, lngCol) <> "" Then ChangeEditButtonStatus = True
+    If grdGrid.CellValue(lngRow, lngCol) <> "" Then ChangeEditButtonStatus = True
 
 End Function
 

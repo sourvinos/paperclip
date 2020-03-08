@@ -773,6 +773,8 @@ Private Function DoJobs()
     
     RefreshList txtID.text, mskDateFrom.text, mskDateTo.text, mergedTable
     
+    UpdateButtons Me, 3, 0, 1, 1, 0
+    
 End Function
 
 
@@ -815,14 +817,14 @@ Private Function MergeAgreementsAndPayments(dateFrom As Date, agreements As Reco
     
     With agreements
         While Not .EOF
-            id = MainSaveRecord("CommonDB", "EmployeesLedger", True, "", "ID", 0, "Y", "", agreements.Fields(2), agreements.Fields(3), "", agreements.Fields(3), "", "", "", agreements.Fields(4), 0, agreements.Fields(5))
+            id = MainSaveRecord("CommonDB", "EmployeesLedger", True, "", "ID", 0, "Y", "", agreements.Fields(2), agreements.Fields(3), "", agreements.Fields(3), "", "", "", agreements.Fields(4), 0, agreements.Fields(5), txtID.text)
             .MoveNext
         Wend
     End With
     
     With payments
         While Not .EOF
-            id = MainSaveRecord("CommonDB", "EmployeesLedger", True, "", "ID", 0, "", "Y", "", "", payments.Fields(2), payments.Fields(2), payments.Fields(3), payments.Fields(4), payments.Fields(5), payments.Fields(6), payments.Fields(7), 0)
+            id = MainSaveRecord("CommonDB", "EmployeesLedger", True, "", "ID", 0, "", "Y", "", "", payments.Fields(2), payments.Fields(2), payments.Fields(3), payments.Fields(4), payments.Fields(5), payments.Fields(6), payments.Fields(7), 0, payments.Fields(0))
             .MoveNext
         Wend
     End With
@@ -953,7 +955,7 @@ Private Function RefreshList(personID As String, fromDate As String, toDate As S
         Do Until .EOF
             grdEmployeesLedger.AddRow
             UpdateProgressBar Me
-            grdEmployeesLedger.CellValue(lngRow, "ID") = !id
+            grdEmployeesLedger.CellValue(lngRow, "ID") = !TrnID
             grdEmployeesLedger.CellValue(lngRow, "Agreement") = !A
             grdEmployeesLedger.CellValue(lngRow, "Transaction") = !T
             grdEmployeesLedger.CellValue(lngRow, "From") = !From
@@ -1087,15 +1089,21 @@ Private Function EditRecord()
 
     Dim rstRecordset As Recordset
     
-    Set rstRecordset = EmployeesTransactions.SeekRecord(grdEmployeesLedger.CellValue(grdEmployeesLedger.CurRow, "ID"))
-                
-    If rstRecordset.RecordCount = 0 Then
-        If MyMsgBox(4, strApplicationName, strStandardMessages(9), 1) Then
-        End If
-        Exit Function
+    'Εγγραφές συμφωνιών
+    If grdEmployeesLedger.CellValue(grdEmployeesLedger.CurRow, "Agreement") <> "" Then
+        'Set rstRecordset = Employees.SeekRecord(grdEmployeesLedger.CellValue(grdEmployeesLedger.CurRow, "ID"))
     End If
     
-    EmployeesTransactions.DoPostFoundJobs rstRecordset: EmployeesTransactions.Show 1, Me
+    'Εγγραφές πληρωμών
+    If grdEmployeesLedger.CellValue(grdEmployeesLedger.CurRow, "Transaction") <> "" Then
+        Set rstRecordset = EmployeesTransactions.SeekRecord(grdEmployeesLedger.CellValue(grdEmployeesLedger.CurRow, "ID"))
+        If rstRecordset.RecordCount = 0 Then
+            If MyMsgBox(4, strApplicationName, strStandardMessages(9), 1) Then
+            End If
+            Exit Function
+        End If
+        EmployeesTransactions.DoPostFoundJobs rstRecordset: EmployeesTransactions.Show 1, Me
+    End If
     
 End Function
 
@@ -1351,7 +1359,7 @@ End Sub
 
 Private Sub grdEmployeesLedger_CurCellChange(ByVal lRow As Long, ByVal lCol As Long)
     
-    cmdButton(1).Enabled = ChangeEditButtonStatus(grdEmployeesLedger, Me.Tag, lRow, 1)
+    cmdButton(1).Enabled = ChangeEditButtonStatus(grdEmployeesLedger, Me.Tag, lRow, "Transaction")
 
 End Sub
 

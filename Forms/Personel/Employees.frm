@@ -1501,7 +1501,8 @@ Public Function SeekRecord(myID)
     DisableFields grdAgreements
     DisableFields cmdIndex(0), cmdIndex(1), cmdIndex(2), cmdIndex(3), cmdIndex(4), cmdIndex(5)
     
-    SeekRecord = False
+    'SeekRecord = False
+    Dim rstRecordset As Recordset
     
     blnEnableDelete = SimpleSeek("EmployeesTransactions", "EmployeeID", myID)
     
@@ -1526,7 +1527,8 @@ Public Function SeekRecord(myID)
         EnableFields btnPanel(1)
         UpdateButtons Me, 7, 0, 1, IIf(blnEnableDelete, 1, 0), 0, 1, 0, 1, 1
         blnStatus = False
-        SeekRecord = True
+        'SeekRecord = txtID.text
+        Set SeekRecord = rstRecordset
         
         FindAgreements (Val(txtID.text))
         
