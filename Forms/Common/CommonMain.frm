@@ -20,7 +20,7 @@ Begin VB.Form CommonMain
    Begin VB.Frame menuFrame 
       BackColor       =   &H00FFFFC0&
       BorderStyle     =   0  'None
-      Height          =   990
+      Height          =   1290
       Index           =   5
       Left            =   12300
       TabIndex        =   58
@@ -44,7 +44,7 @@ Begin VB.Form CommonMain
          Left            =   300
          MousePointer    =   2  'Cross
          TabIndex        =   60
-         Top             =   150
+         Top             =   300
          Width           =   3315
       End
       Begin VB.Label menuOption 
@@ -64,14 +64,14 @@ Begin VB.Form CommonMain
          Index           =   22
          Left            =   300
          TabIndex        =   59
-         Top             =   525
+         Top             =   675
          Width           =   3315
       End
    End
    Begin VB.Frame menuFrame 
       BackColor       =   &H00FFFFC0&
       BorderStyle     =   0  'None
-      Height          =   1140
+      Height          =   1290
       Index           =   8
       Left            =   24975
       TabIndex        =   53
@@ -94,7 +94,7 @@ Begin VB.Form CommonMain
          Index           =   52
          Left            =   300
          TabIndex        =   55
-         Top             =   600
+         Top             =   675
          Width           =   3315
       End
       Begin VB.Label menuOption 
@@ -115,7 +115,7 @@ Begin VB.Form CommonMain
          Left            =   300
          MousePointer    =   2  'Cross
          TabIndex        =   54
-         Top             =   225
+         Top             =   300
          Width           =   3315
       End
    End
@@ -635,7 +635,7 @@ Begin VB.Form CommonMain
    Begin VB.Frame menuFrame 
       BackColor       =   &H00FFFFC0&
       BorderStyle     =   0  'None
-      Height          =   2940
+      Height          =   3240
       Index           =   6
       Left            =   16050
       TabIndex        =   30
@@ -646,16 +646,16 @@ Begin VB.Form CommonMain
          Index           =   1
          X1              =   300
          X2              =   3600
-         Y1              =   975
-         Y2              =   975
+         Y1              =   1125
+         Y2              =   1125
       End
       Begin VB.Line Line1 
          BorderColor     =   &H00C000C0&
          Index           =   0
          X1              =   300
          X2              =   3600
-         Y1              =   1950
-         Y2              =   1950
+         Y1              =   2100
+         Y2              =   2100
       End
       Begin VB.Label menuOption 
          BackColor       =   &H0080C0FF&
@@ -675,7 +675,7 @@ Begin VB.Form CommonMain
          Left            =   300
          MousePointer    =   2  'Cross
          TabIndex        =   72
-         Top             =   1500
+         Top             =   1650
          Width           =   3315
       End
       Begin VB.Label menuOption 
@@ -696,7 +696,7 @@ Begin VB.Form CommonMain
          Left            =   300
          MousePointer    =   2  'Cross
          TabIndex        =   71
-         Top             =   1125
+         Top             =   1275
          Width           =   3315
       End
       Begin VB.Label menuOption 
@@ -717,7 +717,7 @@ Begin VB.Form CommonMain
          Left            =   300
          MousePointer    =   2  'Cross
          TabIndex        =   70
-         Top             =   525
+         Top             =   675
          Width           =   3315
       End
       Begin VB.Label menuOption 
@@ -738,7 +738,7 @@ Begin VB.Form CommonMain
          Left            =   300
          MousePointer    =   2  'Cross
          TabIndex        =   69
-         Top             =   2475
+         Top             =   2625
          Width           =   3315
       End
       Begin VB.Label menuOption 
@@ -759,7 +759,7 @@ Begin VB.Form CommonMain
          Left            =   300
          MousePointer    =   2  'Cross
          TabIndex        =   68
-         Top             =   2100
+         Top             =   2250
          Width           =   3315
       End
       Begin VB.Label menuOption 
@@ -780,19 +780,33 @@ Begin VB.Form CommonMain
          Left            =   300
          MousePointer    =   2  'Cross
          TabIndex        =   31
-         Top             =   150
+         Top             =   300
          Width           =   3315
       End
    End
    Begin VB.Frame menuFrame 
       BackColor       =   &H00FFFFC0&
       BorderStyle     =   0  'None
-      Height          =   2940
+      Height          =   3615
       Index           =   4
       Left            =   12075
       TabIndex        =   24
       Top             =   225
       Width           =   3915
+      Begin VB.Line Line1 
+         Index           =   7
+         X1              =   300
+         X2              =   3600
+         Y1              =   1125
+         Y2              =   1125
+      End
+      Begin VB.Line Line1 
+         Index           =   5
+         X1              =   300
+         X2              =   3600
+         Y1              =   2850
+         Y2              =   2850
+      End
       Begin VB.Label menuOption 
          BackColor       =   &H0080C0FF&
          Caption         =   "Μαζική εκτύπωση καρτελών"
@@ -810,7 +824,7 @@ Begin VB.Form CommonMain
          Index           =   23
          Left            =   300
          TabIndex        =   62
-         Top             =   1275
+         Top             =   1650
          Width           =   3315
       End
       Begin VB.Label menuOption 
@@ -831,7 +845,7 @@ Begin VB.Form CommonMain
          Left            =   300
          MousePointer    =   2  'Cross
          TabIndex        =   57
-         Top             =   2025
+         Top             =   2400
          Width           =   3315
       End
       Begin VB.Label menuOption 
@@ -852,7 +866,7 @@ Begin VB.Form CommonMain
          Left            =   300
          MousePointer    =   2  'Cross
          TabIndex        =   29
-         Top             =   150
+         Top             =   300
          Width           =   3315
       End
       Begin VB.Label menuOption 
@@ -872,7 +886,7 @@ Begin VB.Form CommonMain
          Index           =   17
          Left            =   300
          TabIndex        =   28
-         Top             =   525
+         Top             =   675
          Width           =   3315
       End
       Begin VB.Label menuOption 
@@ -893,7 +907,7 @@ Begin VB.Form CommonMain
          Left            =   300
          MousePointer    =   2  'Cross
          TabIndex        =   27
-         Top             =   2400
+         Top             =   3000
          Width           =   3315
       End
       Begin VB.Label menuOption 
@@ -913,7 +927,7 @@ Begin VB.Form CommonMain
          Index           =   18
          Left            =   300
          TabIndex        =   26
-         Top             =   900
+         Top             =   1275
          Width           =   3315
       End
       Begin VB.Label menuOption 
@@ -933,19 +947,33 @@ Begin VB.Form CommonMain
          Index           =   19
          Left            =   300
          TabIndex        =   25
-         Top             =   1650
+         Top             =   2025
          Width           =   3315
       End
    End
    Begin VB.Frame menuFrame 
       BackColor       =   &H00FFFFC0&
       BorderStyle     =   0  'None
-      Height          =   2865
+      Height          =   3615
       Index           =   3
       Left            =   8100
       TabIndex        =   18
       Top             =   225
       Width           =   3915
+      Begin VB.Line Line1 
+         Index           =   4
+         X1              =   300
+         X2              =   3600
+         Y1              =   2850
+         Y2              =   2850
+      End
+      Begin VB.Line Line1 
+         Index           =   3
+         X1              =   300
+         X2              =   3600
+         Y1              =   1125
+         Y2              =   1125
+      End
       Begin VB.Label menuOption 
          BackColor       =   &H0080C0FF&
          Caption         =   "Μαζική εκτύπωση καρτελών"
@@ -963,7 +991,7 @@ Begin VB.Form CommonMain
          Index           =   11
          Left            =   300
          TabIndex        =   61
-         Top             =   1275
+         Top             =   1650
          Width           =   3315
       End
       Begin VB.Label menuOption 
@@ -984,7 +1012,7 @@ Begin VB.Form CommonMain
          Left            =   300
          MousePointer    =   2  'Cross
          TabIndex        =   56
-         Top             =   2025
+         Top             =   2400
          Width           =   3315
       End
       Begin VB.Label menuOption 
@@ -1004,7 +1032,7 @@ Begin VB.Form CommonMain
          Index           =   13
          Left            =   300
          TabIndex        =   23
-         Top             =   1650
+         Top             =   2025
          Width           =   3315
       End
       Begin VB.Label menuOption 
@@ -1024,7 +1052,7 @@ Begin VB.Form CommonMain
          Index           =   12
          Left            =   300
          TabIndex        =   22
-         Top             =   900
+         Top             =   1275
          Width           =   3315
       End
       Begin VB.Label menuOption 
@@ -1045,7 +1073,7 @@ Begin VB.Form CommonMain
          Left            =   300
          MousePointer    =   2  'Cross
          TabIndex        =   21
-         Top             =   2400
+         Top             =   3000
          Width           =   3315
       End
       Begin VB.Label menuOption 
@@ -1065,7 +1093,7 @@ Begin VB.Form CommonMain
          Index           =   10
          Left            =   300
          TabIndex        =   20
-         Top             =   525
+         Top             =   675
          Width           =   3315
       End
       Begin VB.Label menuOption 
@@ -1086,19 +1114,26 @@ Begin VB.Form CommonMain
          Left            =   300
          MousePointer    =   2  'Cross
          TabIndex        =   19
-         Top             =   150
+         Top             =   300
          Width           =   3315
       End
    End
    Begin VB.Frame menuFrame 
       BackColor       =   &H00FFFFC0&
       BorderStyle     =   0  'None
-      Height          =   1365
+      Height          =   1890
       Index           =   2
       Left            =   4125
       TabIndex        =   14
       Top             =   225
       Width           =   3915
+      Begin VB.Line Line1 
+         Index           =   2
+         X1              =   300
+         X2              =   3600
+         Y1              =   1125
+         Y2              =   1125
+      End
       Begin VB.Label menuOption 
          BackColor       =   &H0080C0FF&
          Caption         =   "Κινήσεις"
@@ -1117,7 +1152,7 @@ Begin VB.Form CommonMain
          Left            =   300
          MousePointer    =   2  'Cross
          TabIndex        =   17
-         Top             =   150
+         Top             =   300
          Width           =   3315
       End
       Begin VB.Label menuOption 
@@ -1137,7 +1172,7 @@ Begin VB.Form CommonMain
          Index           =   7
          Left            =   300
          TabIndex        =   16
-         Top             =   525
+         Top             =   675
          Width           =   3315
       End
       Begin VB.Label menuOption 
@@ -1158,19 +1193,26 @@ Begin VB.Form CommonMain
          Left            =   300
          MousePointer    =   2  'Cross
          TabIndex        =   15
-         Top             =   900
+         Top             =   1275
          Width           =   3315
       End
    End
    Begin VB.Frame menuFrame 
       BackColor       =   &H00FFFFC0&
       BorderStyle     =   0  'None
-      Height          =   1365
+      Height          =   1890
       Index           =   1
       Left            =   150
       TabIndex        =   1
       Top             =   225
       Width           =   3915
+      Begin VB.Line Line1 
+         Index           =   6
+         X1              =   300
+         X2              =   3600
+         Y1              =   1125
+         Y2              =   1125
+      End
       Begin VB.Label menuOption 
          BackColor       =   &H0080C0FF&
          Caption         =   "Τύποι παραστατικών"
@@ -1189,7 +1231,7 @@ Begin VB.Form CommonMain
          Left            =   300
          MousePointer    =   2  'Cross
          TabIndex        =   13
-         Top             =   900
+         Top             =   1275
          Width           =   3315
       End
       Begin VB.Label menuOption 
@@ -1209,7 +1251,7 @@ Begin VB.Form CommonMain
          Index           =   2
          Left            =   300
          TabIndex        =   12
-         Top             =   525
+         Top             =   675
          Width           =   3315
       End
       Begin VB.Label menuOption 
@@ -1230,7 +1272,7 @@ Begin VB.Form CommonMain
          Left            =   300
          MousePointer    =   2  'Cross
          TabIndex        =   11
-         Top             =   150
+         Top             =   300
          Width           =   3315
       End
    End
@@ -1720,7 +1762,7 @@ Private Function CloseApp()
 
 End Function
 
-Private Sub menuFrame_MouseMove(Index As Integer, Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub menuFrame_MouseMove(Index As Integer, Button As Integer, Shift As Integer, x As Single, Y As Single)
 
     On Error GoTo ErrTrap
     
@@ -2084,9 +2126,9 @@ Private Sub menuOption_Click(Index As Integer)
 
 End Sub
 
-Private Sub menuOption_MouseMove(Index As Integer, Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub menuOption_MouseMove(Index As Integer, Button As Integer, Shift As Integer, x As Single, Y As Single)
 
-    If X >= menuOption(Index).Left - 1200 Then
+    If x >= menuOption(Index).Left - 1200 Then
         menuOption(Index).BackColor = &H80C0FF: Exit Sub
     End If
 

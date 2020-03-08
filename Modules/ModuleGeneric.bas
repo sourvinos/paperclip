@@ -128,7 +128,7 @@ Function CustomizeGrid(ParamArray myGrid() As Variant)
     
     For intLoop = 0 To UBound(myGrid)
         With myGrid(intLoop)
-            .GridLineColor = GetSetting(appName:=strApplicationName, Section:="Colors", Key:="Grid Header BackColor")
+            .GridLineColor = GetSetting(appName:=strApplicationName, Section:="Colors", Key:="Grid GridLines")
             .GridLines = igGridLinesBoth
             .GridLinesExtend = igGridLinesExtendDown
             .RowMode = False
@@ -1137,6 +1137,7 @@ Function SetUpGrid(myIconList As vbalImageList, ParamArray myGrid() As Variant)
             .RowMode = True
             .GridLines = igGridLinesBoth
             .GridLinesExtend = igGridLinesExtendBoth
+            .GridLineColor = GetSetting(appName:=strApplicationName, Section:="Colors", Key:="Grid GridLines")
             .ScrollBarStyle = 2
             .Top = .Top - 6
             With .Font

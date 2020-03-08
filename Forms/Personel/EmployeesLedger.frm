@@ -577,7 +577,7 @@ Begin VB.Form EmployeesLedger
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-         ForeColor       =   &H00FFFF00&
+         ForeColor       =   &H00404040&
          Height          =   315
          Left            =   75
          TabIndex        =   10
@@ -713,10 +713,10 @@ Private Function AddTotalsSoFarForEmployeeToGrid()
 
     With grdEmployeesLedger
         .AddRow
-        .CellValue(.RowCount, "ExpenseDescription") = "ΠΡΟΗΓΟΥΜΕΝΗ ΠΕΡΙΟΔΟΣ"
-        '.CellValue(.RowCount, "Debit") = curDebitSoFar
-        '.CellValue(.RowCount, "Credit") = curCreditSoFar
-        '.CellValue(.RowCount, "Balance") = curAccBalance
+        .CellValue(.RowCount, "PaymentCategory") = "ΠΡΟΗΓΟΥΜΕΝΗ ΠΕΡΙΟΔΟΣ"
+        .CellValue(.RowCount, "Debit") = curDebitSoFar
+        .CellValue(.RowCount, "Credit") = curCreditSoFar
+        .CellValue(.RowCount, "Balance") = curAccBalance
         .AddRow
     End With
     
@@ -730,13 +730,13 @@ Private Function CalculateSoFarTotalsForCredit(rstTransactions As Recordset, deb
     Dim curTotals As Currency
     
     With rstTransactions
-        'Οφειλές - στήλη πίστωσης
-        If debitOrCredit = "Credit" Then
-            curCreditSoFar = curCreditSoFar + rstTransactions.Fields("Credit")
-        End If
         'Πληρωμή- Στήλη χρέωσης
         If debitOrCredit = "Debit" Then
             curDebitSoFar = curDebitSoFar + rstTransactions.Fields("Debit")
+        End If
+        'Οφειλές - στήλη πίστωσης
+        If debitOrCredit = "Credit" Then
+            curCreditSoFar = curCreditSoFar + rstTransactions.Fields("Credit")
         End If
     End With
 
@@ -757,19 +757,19 @@ Private Function DoJobs()
     
     frmCriteria(0).Visible = False
     
-    'If UBound(mergedArray, 2) = 0 Then
-    '    If blnProcessing Then
-    '        If MyMsgBox(4, strApplicationName, strStandardMessages(27), 1) Then
-    '        End If
-    '    Else
-    '        If MyMsgBox(1, strApplicationName, strStandardMessages(7), 1) Then
-    '        End If
-    '    End If
-    '    blnProcessing = False
-    '    frmCriteria(0).Visible = True
-    '    mskDateFrom.SetFocus
-    '    Exit Function
-    'End If
+    If mergedTable.RecordCount = 0 Then
+        If blnProcessing Then
+            If MyMsgBox(4, strApplicationName, strStandardMessages(27), 1) Then
+            End If
+        Else
+            If MyMsgBox(1, strApplicationName, strStandardMessages(7), 1) Then
+            End If
+        End If
+        blnProcessing = False
+        frmCriteria(0).Visible = True
+        mskDateFrom.SetFocus
+        Exit Function
+    End If
     
     RefreshList txtID.text, mskDateFrom.text, mskDateTo.text, mergedTable
     
@@ -813,44 +813,23 @@ Private Function MergeAgreementsAndPayments(dateFrom As Date, agreements As Reco
     strSQL = "DELETE * FROM EmployeesLedger"
     CommonDB.Execute (strSQL)
     
-    While Not agreements.EOF
-       
-        GoSub AddAgreementToArray
-        
-        While Not payments.EOF
-        
-            If payments.Fields(2) >= agreements.Fields(2) And payments.Fields(2) <= agreements.Fields(3) Then
-                GoSub AddPaymentToArray
-            End If
-            
-            payments.MoveNext
-        
+    With agreements
+        While Not .EOF
+            id = MainSaveRecord("CommonDB", "EmployeesLedger", True, "", "ID", 0, "Y", "", agreements.Fields(2), agreements.Fields(3), "", agreements.Fields(3), "", "", "", agreements.Fields(4), 0, agreements.Fields(5))
+            .MoveNext
         Wend
-            
-        If Not payments.EOF Then
-            payments.MoveFirst
-        End If
-        agreements.MoveNext
-        
-    Wend
+    End With
     
-    TempQuery.SQL = "SELECT * FROM EmployeesLedger"
+    With payments
+        While Not .EOF
+            id = MainSaveRecord("CommonDB", "EmployeesLedger", True, "", "ID", 0, "", "Y", "", "", payments.Fields(2), payments.Fields(2), payments.Fields(3), payments.Fields(4), payments.Fields(5), payments.Fields(6), payments.Fields(7), 0)
+            .MoveNext
+        Wend
+    End With
+    
+    TempQuery.SQL = "SELECT * FROM EmployeesLedger ORDER BY HelperDate, ID"
     Set rstLedger = TempQuery.OpenRecordset()
     Set MergeAgreementsAndPayments = rstLedger
-    
-Exit Function
-    
-AddAgreementToArray:
-    balance = balance - agreements.Fields(4)
-    id = MainSaveRecord("CommonDB", "EmployeesLedger", True, "", "ID", 0, "Y", "", agreements.Fields(2), agreements.Fields(3), "", "", "", "", "", 0, agreements.Fields(4), balance)
-    
-    Return
-    
-AddPaymentToArray:
-    balance = balance + payments.Fields(7)
-    id = MainSaveRecord("CommonDB", "EmployeesLedger", True, "", "ID", 0, "", "Y", "", "", payments.Fields(2), payments.Fields(3), payments.Fields(4), payments.Fields(5), payments.Fields(6), payments.Fields(7), 0, balance)
-    
-    Return
     
 End Function
 
@@ -889,13 +868,6 @@ Private Function GetPayments(personID As String, fromDate As String, toDate As S
     GoSub UpdateSQLString
     arrQuery(intIndex) = Val(txtID.text)
     
-    'Από
-    strThisParameter = "datFromDate Date"
-    strThisQuery = "DateRefersTo >= datFromDate"
-    strLogic = " AND "
-    GoSub UpdateSQLString
-    arrQuery(intIndex) = fromDate
-    
     'Εως
     strThisParameter = "datToDate Date"
     strThisQuery = "DateRefersTo <= datToDate"
@@ -904,7 +876,7 @@ Private Function GetPayments(personID As String, fromDate As String, toDate As S
     arrQuery(intIndex) = toDate
     
     'Ταξινόμηση
-    strOrder = " ORDER BY DateRefersTo"
+    strOrder = " ORDER BY DateRefersTo, t.ID"
     
     Set TempQuery = CommonDB.CreateQueryDef("")
     
@@ -948,6 +920,10 @@ Private Function RefreshList(personID As String, fromDate As String, toDate As S
     Dim lngRow As Long
     Dim blnSoFarHasData As Boolean
     Dim blnPeriodHasData As Boolean
+    
+    Dim curPeriodDebit As Currency
+    Dim curPeriodCredit As Currency
+    Dim curPeriodBalance As Currency
 
     'Αρχικές τιμές
     lngRow = 1
@@ -972,38 +948,82 @@ Private Function RefreshList(personID As String, fromDate As String, toDate As S
         If CalculateSoFarTotals(fromDate, table) Then
             blnSoFarHasData = True
             AddTotalsSoFarToGrid
+            lngRow = lngRow + 2
         End If
-
-        'grdEmployeesLedger.AddRow , , , , , , , mergedArray.RecordCount
-        'Do Until .EOF
- '           grdEmployeesLedger.CellValue(lngRow, "ID") = !id
- '           grdEmployeesLedger.CellValue(lngRow, "Agreement") = !A
- '           grdEmployeesLedger.CellValue(lngRow, "Transaction") = !T
- '           grdEmployeesLedger.CellValue(lngRow, "From") = !From
- '           grdEmployeesLedger.CellValue(lngRow, "To") = !To
- '           grdEmployeesLedger.CellValue(lngRow, "Date") = !PaymentDate
- '           grdEmployeesLedger.CellValue(lngRow, "PaymentCategory") = !PaymentCategory
- '           grdEmployeesLedger.CellValue(lngRow, "PaymentWay") = !PaymentWay
- '           grdEmployeesLedger.CellValue(lngRow, "TransactionType") = !TransactionType
- '           grdEmployeesLedger.CellValue(lngRow, "Remarks") = !Remarks
- '           grdEmployeesLedger.CellValue(lngRow, "Debit") = !Debit
- '           grdEmployeesLedger.CellValue(lngRow, "Credit") = !Credit
- '           grdEmployeesLedger.CellValue(lngRow, "Balance") = !balance
- '           lngRow = lngRow + 1
- '           DoEvents
- '           If Not blnProcessing Then Exit Do
- '           .MoveNext
- '       Loop
+        Do Until .EOF
+            grdEmployeesLedger.AddRow
+            UpdateProgressBar Me
+            grdEmployeesLedger.CellValue(lngRow, "ID") = !id
+            grdEmployeesLedger.CellValue(lngRow, "Agreement") = !A
+            grdEmployeesLedger.CellValue(lngRow, "Transaction") = !T
+            grdEmployeesLedger.CellValue(lngRow, "From") = !From
+            grdEmployeesLedger.CellValue(lngRow, "To") = !To
+            grdEmployeesLedger.CellValue(lngRow, "Date") = !PaymentDate
+            grdEmployeesLedger.CellValue(lngRow, "PaymentCategory") = !PaymentCategory
+            grdEmployeesLedger.CellValue(lngRow, "PaymentWay") = !PaymentWay
+            grdEmployeesLedger.CellValue(lngRow, "TransactionType") = !TransactionType
+            grdEmployeesLedger.CellValue(lngRow, "Remarks") = !Remarks
+            grdEmployeesLedger.CellValue(lngRow, "Debit") = !Debit
+            grdEmployeesLedger.CellValue(lngRow, "Credit") = !Credit
+            
+            GoSub CalculateTotals
+            
+            grdEmployeesLedger.CellValue(lngRow, "Balance") = curAccBalance + curPeriodBalance
+            InvertColorForNegativeNumbers grdEmployeesLedger, lngRow
+            lngRow = lngRow + 1
+            DoEvents
+            If Not blnProcessing Then Exit Do
+            .MoveNext
+        Loop
     End With
     
     'Τελικές ενέργειες
+    GoSub AddPeriodTotalsToGrid
+    GoSub AddGrandTotalsToGrid
+    
     frmProgress.Visible = False
     grdEmployeesLedger.Redraw = True
     grdEmployeesLedger.SetFocus
-    'grdEmployeesLedger.SetCurCell 1, 1
+    grdEmployeesLedger.SetCurCell 1, 1
     UpdateButtons Me, 3, 0, 0, 1, 0
     cmdButton(2).Caption = "Νέα αναζήτηση"
     blnProcessing = False
+    
+    Exit Function
+    
+CalculateTotals:
+    curPeriodDebit = curPeriodDebit + table!Debit
+    curPeriodCredit = curPeriodCredit + table!Credit
+    curPeriodBalance = curPeriodBalance + table!Debit - table!Credit
+    
+    Return
+    
+AddPeriodTotalsToGrid:
+    With grdEmployeesLedger
+        .AddRow
+        .AddRow
+        lngRow = .RowCount
+        .CellValue(.RowCount, "PaymentCategory") = "ΖΗΤΟΥΜΕΝΗ ΠΕΡΙΟΔΟΣ"
+        grdEmployeesLedger.CellValue(lngRow, "Debit") = curPeriodDebit
+        grdEmployeesLedger.CellValue(lngRow, "Credit") = curPeriodCredit
+        grdEmployeesLedger.CellValue(lngRow, "Balance") = curPeriodDebit - curPeriodCredit
+    End With
+    
+    Return
+    
+AddGrandTotalsToGrid:
+    With grdEmployeesLedger
+        .AddRow
+        .RowHeight(.RowCount) = 5
+        .AddRow
+        lngRow = .RowCount
+        .CellValue(.RowCount, "PaymentCategory") = "ΓΕΝΙΚΑ ΣΥΝΟΛΑ"
+        grdEmployeesLedger.CellValue(lngRow, "Debit") = curDebitSoFar + curPeriodDebit
+        grdEmployeesLedger.CellValue(lngRow, "Credit") = curCreditSoFar + curPeriodCredit
+        grdEmployeesLedger.CellValue(lngRow, "Balance") = curDebitSoFar + curPeriodDebit - curCreditSoFar - curPeriodCredit
+    End With
+    
+    Return
     
 End Function
 
@@ -1025,7 +1045,7 @@ Private Function CalculateSoFarTotals(fromDate As String, rstTransactions As Rec
     With rstTransactions
         While Not .EOF
             If Not blnProcessing Then Exit Function
-            If rstTransactions.Fields("To") < CDate(fromDate) Then
+            If rstTransactions.Fields("HelperDate") < CDate(fromDate) Then
                 'Οφειλές - Στήλη πίστωσης
                 If rstTransactions.Fields("Credit") <> 0 Then CalculateSoFarTotalsForCredit rstTransactions, "Credit"
                 'Πληρωμές - Στήλη χρέωσης
@@ -1044,6 +1064,7 @@ Private Function CalculateSoFarTotals(fromDate As String, rstTransactions As Rec
             End If
         Wend
         'Υπόλοιπο
+        curBalanceSoFar = curAccBalance
         curAccBalance = curDebitSoFar - curCreditSoFar
     End With
 
@@ -1176,7 +1197,7 @@ Private Function GetAgreements(personID As String, fromDate As String, toDate As
     intIndex = 0
     
     'Κυρίως διαδικασία
-    strSQL = "SELECT ID, EmployeeID, DateFrom, DateTo, Amount " _
+    strSQL = "SELECT ID, EmployeeID, DateFrom, DateTo, Remarks, Amount " _
         & "FROM EmployeesAgreements "
  
     'Εργαζόμενος
@@ -1185,13 +1206,6 @@ Private Function GetAgreements(personID As String, fromDate As String, toDate As
     strLogic = " AND "
     GoSub UpdateSQLString
     arrQuery(intIndex) = Val(txtID.text)
-    
-    'Από
-    strThisParameter = "datFromDate Date"
-    strThisQuery = "DateFrom >= datFromDate"
-    strLogic = " AND "
-    GoSub UpdateSQLString
-    arrQuery(intIndex) = fromDate
     
     'Εως
     strThisParameter = "datToDate Date"
@@ -1307,6 +1321,7 @@ Private Sub Form_Load()
     SetUpGrid lstIconList, grdEmployeesLedger
     PositionControls Me, True, grdEmployeesLedger
     ColorizeControls Me, True
+    'CustomizeGrid grdEmployeesLedger
     ClearFields lblRecordCount, lblCriteria, lblSelectedGridLines, lblSelectedGridTotals
     ClearFields txtID
     ClearFields mskDateFrom, mskDateTo, txtLastname

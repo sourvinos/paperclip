@@ -9,3 +9,5 @@
 07/03/2020 19:04 Data type conversion error.
 07/03/2020 19:04 Data type conversion error.
 08/03/2020 11:25 Data type conversion error.
+08/03/2020 13:52 The specified field 'ID' could refer to more than one table listed in the FROM clause of your SQL statement.
+08/03/2020 14:32 Subscript out of range.
