@@ -1281,9 +1281,9 @@ Private Function AbortProcedure(blnStatus)
             blnStatus = False
             btnPanel_Click 0
             ClearFields txtID, txtCompanyID, txtSpecialityID, txtShipID
-            ClearFields txtLastname, txtFirstname, txtCompanyDescription, mskHireDate, txtSpecialityDescription, txtShipDescription, txtPhones, txtRemarks
+            ClearFields txtLastname, txtFirstName, txtCompanyDescription, mskHireDate, txtSpecialityDescription, txtShipDescription, txtPhones, txtRemarks
             ClearFields grdAgreements
-            DisableFields txtLastname, txtFirstname, txtCompanyDescription, mskHireDate, txtSpecialityDescription, txtShipDescription, txtPhones, txtRemarks
+            DisableFields txtLastname, txtFirstName, txtCompanyDescription, mskHireDate, txtSpecialityDescription, txtShipDescription, txtPhones, txtRemarks
             DisableFields cmdIndex(0), cmdIndex(1), cmdIndex(2), cmdIndex(3), cmdIndex(4), cmdIndex(5)
             DisableFields btnPanel(1)
             DisableFields grdAgreements
@@ -1495,9 +1495,9 @@ Public Function SeekRecord(myID)
     Dim tmpTableData As typTableData
     
     ClearFields txtID, txtCompanyID, txtSpecialityID, txtShipID
-    ClearFields txtLastname, txtFirstname, txtCompanyDescription, mskHireDate, txtSpecialityDescription, txtShipDescription, txtPhones, txtRemarks
+    ClearFields txtLastname, txtFirstName, txtCompanyDescription, mskHireDate, txtSpecialityDescription, txtShipDescription, txtPhones, txtRemarks
     ClearFields grdAgreements
-    DisableFields txtLastname, txtFirstname, txtCompanyDescription, mskHireDate, txtSpecialityDescription, txtShipDescription, txtPhones, txtRemarks
+    DisableFields txtLastname, txtFirstName, txtCompanyDescription, mskHireDate, txtSpecialityDescription, txtShipDescription, txtPhones, txtRemarks
     DisableFields grdAgreements
     DisableFields cmdIndex(0), cmdIndex(1), cmdIndex(2), cmdIndex(3), cmdIndex(4), cmdIndex(5)
     
@@ -1505,7 +1505,7 @@ Public Function SeekRecord(myID)
     
     blnEnableDelete = SimpleSeek("EmployeesTransactions", "EmployeeID", myID)
     
-    If MainSeekRecord("CommonDB", "Employees", "ID", myID, True, txtID, txtLastname, txtFirstname, txtCompanyID, mskHireDate, txtSpecialityID, txtShipID, txtPhones, txtRemarks) Then
+    If MainSeekRecord("CommonDB", "Employees", "ID", myID, True, txtID, txtLastname, txtFirstName, txtCompanyID, mskHireDate, txtSpecialityID, txtShipID, txtPhones, txtRemarks) Then
         'Εταιρία
         Set tmpRecordset = CheckForMatch("CommonDB", "Companies", "ID", "Numeric", txtCompanyID.text)
         txtCompanyID.text = tmpRecordset.Fields(0)
@@ -1520,7 +1520,7 @@ Public Function SeekRecord(myID)
             txtShipID.text = tmpRecordset.Fields(0)
             txtShipDescription.text = tmpRecordset.Fields(1)
         End If
-        EnableFields txtLastname, txtFirstname, txtCompanyDescription, mskHireDate, txtSpecialityDescription, txtShipDescription, txtPhones, txtRemarks
+        EnableFields txtLastname, txtFirstName, txtCompanyDescription, mskHireDate, txtSpecialityDescription, txtShipDescription, txtPhones, txtRemarks
         EnableFields cmdIndex(0), cmdIndex(1), cmdIndex(2), cmdIndex(3), cmdIndex(4), cmdIndex(5)
         EnableFields grdAgreements
         EnableFields btnPanel(1)
@@ -1547,9 +1547,9 @@ Private Function DeleteRecord()
         CommitTrans
         btnPanel_Click 0
         ClearFields txtID, txtCompanyID, txtSpecialityID, txtShipID
-        ClearFields txtLastname, txtFirstname, txtCompanyDescription, mskHireDate, txtSpecialityDescription, txtShipDescription, txtPhones, txtRemarks
+        ClearFields txtLastname, txtFirstName, txtCompanyDescription, mskHireDate, txtSpecialityDescription, txtShipDescription, txtPhones, txtRemarks
         ClearFields grdAgreements
-        DisableFields txtLastname, txtFirstname, txtCompanyDescription, mskHireDate, txtSpecialityDescription, txtShipDescription, txtPhones, txtRemarks
+        DisableFields txtLastname, txtFirstName, txtCompanyDescription, mskHireDate, txtSpecialityDescription, txtShipDescription, txtPhones, txtRemarks
         DisableFields cmdIndex(0), cmdIndex(1), cmdIndex(2), cmdIndex(3), cmdIndex(4), cmdIndex(5)
         DisableFields btnPanel(1)
         DisableFields grdAgreements
@@ -1564,9 +1564,9 @@ Private Function NewRecord()
     
     blnStatus = True
     ClearFields txtID, txtCompanyID, txtSpecialityID, txtShipID
-    ClearFields txtLastname, txtFirstname, txtCompanyDescription, mskHireDate, txtSpecialityDescription, txtShipDescription, txtPhones, txtRemarks
+    ClearFields txtLastname, txtFirstName, txtCompanyDescription, mskHireDate, txtSpecialityDescription, txtShipDescription, txtPhones, txtRemarks
     ClearFields grdAgreements
-    EnableFields txtLastname, txtFirstname, txtCompanyDescription, mskHireDate, txtSpecialityDescription, txtShipDescription, txtPhones, txtRemarks
+    EnableFields txtLastname, txtFirstName, txtCompanyDescription, mskHireDate, txtSpecialityDescription, txtShipDescription, txtPhones, txtRemarks
     EnableFields cmdIndex(0), cmdIndex(1), cmdIndex(2), cmdIndex(3), cmdIndex(4), cmdIndex(5)
     EnableFields btnPanel(1)
     EnableFields grdAgreements
@@ -1586,7 +1586,7 @@ Private Function SaveRecord()
     txtID.text = MainSaveRecord("CommonDB", "Employees", blnStatus, strApplicationName, "ID", _
         txtID.text, _
         txtLastname.text, _
-        txtFirstname.text, _
+        txtFirstName.text, _
         txtCompanyID.text, _
         mskHireDate.text, _
         txtSpecialityID.text, _
@@ -1598,9 +1598,9 @@ Private Function SaveRecord()
         
     btnPanel_Click 0
     ClearFields txtID, txtCompanyID, txtSpecialityID, txtShipID
-    ClearFields txtLastname, txtFirstname, txtCompanyDescription, mskHireDate, txtSpecialityDescription, txtShipDescription, txtPhones, txtRemarks
+    ClearFields txtLastname, txtFirstName, txtCompanyDescription, mskHireDate, txtSpecialityDescription, txtShipDescription, txtPhones, txtRemarks
     ClearFields grdAgreements
-    DisableFields txtLastname, txtFirstname, txtCompanyDescription, mskHireDate, txtSpecialityDescription, txtShipDescription, txtPhones, txtRemarks
+    DisableFields txtLastname, txtFirstName, txtCompanyDescription, mskHireDate, txtSpecialityDescription, txtShipDescription, txtPhones, txtRemarks
     DisableFields cmdIndex(0), cmdIndex(1), cmdIndex(2), cmdIndex(3), cmdIndex(4), cmdIndex(5)
     DisableFields btnPanel(1)
     DisableFields grdAgreements
@@ -1671,6 +1671,21 @@ Private Function ValidateFields()
         txtSpecialityDescription.SetFocus
         Exit Function
     End If
+    
+    'Συμφωνίες
+    Dim lngRow As Long
+    
+    With grdAgreements
+        For lngRow = 1 To .RowCount
+            If Not IsDate(.CellValue(lngRow, "From")) Or Not IsDate(.CellValue(lngRow, "To")) Or .CellValue(lngRow, "Amount") = "" Then
+                If MyMsgBox(4, strApplicationName, strAppMessages(1) & lngRow & " είναι λάθος", 1) Then
+                End If
+                btnPanel_Click 1
+                .SetCurCell lngRow, 2
+                Exit Function
+            End If
+        Next lngRow
+    End With
     
     ValidateFields = True
 
@@ -1881,10 +1896,10 @@ Private Sub Form_Load()
     PositionControls Me, False: ColorizeControls Me, , True
     
     ClearFields txtID, txtCompanyID, txtSpecialityID, txtShipID
-    ClearFields txtLastname, txtFirstname, txtCompanyDescription, mskHireDate, txtSpecialityDescription, txtShipDescription, txtPhones, txtRemarks
+    ClearFields txtLastname, txtFirstName, txtCompanyDescription, mskHireDate, txtSpecialityDescription, txtShipDescription, txtPhones, txtRemarks
     ClearFields grdAgreements
     
-    DisableFields txtLastname, txtFirstname, txtCompanyDescription, mskHireDate, txtSpecialityDescription, txtShipDescription, txtPhones, txtRemarks
+    DisableFields txtLastname, txtFirstName, txtCompanyDescription, mskHireDate, txtSpecialityDescription, txtShipDescription, txtPhones, txtRemarks
     DisableFields grdAgreements
     DisableFields cmdIndex(0), cmdIndex(1), cmdIndex(2), cmdIndex(3), cmdIndex(4), cmdIndex(5)
     DisableFields btnPanel(0), btnPanel(1)

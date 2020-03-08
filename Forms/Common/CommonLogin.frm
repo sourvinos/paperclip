@@ -3,7 +3,7 @@ Object = "{158C2A77-1CCD-44C8-AF42-AA199C5DCC6C}#1.0#0"; "dcButton.ocx"
 Object = "{FFE4AEB4-0D55-4004-ADF2-3C1C84D17A72}#1.0#0"; "userControls.ocx"
 Begin VB.Form CommonLogin 
    AutoRedraw      =   -1  'True
-   BackColor       =   &H00FFFFFF&
+   BackColor       =   &H0080FFFF&
    BorderStyle     =   0  'None
    Caption         =   "Pandis Travel"
    ClientHeight    =   6690
