@@ -20,12 +20,117 @@ Begin VB.Form CommonMain
    Begin VB.Frame menuFrame 
       BackColor       =   &H00FFFFC0&
       BorderStyle     =   0  'None
-      Height          =   1290
-      Index           =   5
-      Left            =   12300
-      TabIndex        =   58
-      Top             =   5925
+      Height          =   1890
+      Index           =   2
+      Left            =   5100
+      TabIndex        =   73
+      Top             =   5700
       Width           =   3915
+      Begin VB.Label menuOption 
+         BackColor       =   &H0080C0FF&
+         Caption         =   "Κινήσεις"
+         BeginProperty Font 
+            Name            =   "Ubuntu Condensed"
+            Size            =   11.25
+            Charset         =   161
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00000000&
+         Height          =   315
+         Index           =   54
+         Left            =   300
+         MousePointer    =   2  'Cross
+         TabIndex        =   76
+         Top             =   300
+         Width           =   3315
+      End
+      Begin VB.Label menuOption 
+         BackColor       =   &H0080C0FF&
+         Caption         =   "Ημερολόγιο"
+         BeginProperty Font 
+            Name            =   "Ubuntu Condensed"
+            Size            =   11.25
+            Charset         =   161
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00000000&
+         Height          =   315
+         Index           =   53
+         Left            =   300
+         TabIndex        =   75
+         Top             =   675
+         Width           =   3315
+      End
+      Begin VB.Line Line1 
+         Index           =   9
+         X1              =   300
+         X2              =   3600
+         Y1              =   1125
+         Y2              =   1125
+      End
+      Begin VB.Label menuOption 
+         BackColor       =   &H0080C0FF&
+         Caption         =   "Προελεύσεις εσόδων"
+         BeginProperty Font 
+            Name            =   "Ubuntu Condensed"
+            Size            =   11.25
+            Charset         =   161
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00000000&
+         Height          =   315
+         Index           =   24
+         Left            =   300
+         TabIndex        =   74
+         Top             =   1275
+         Width           =   3315
+      End
+   End
+   Begin VB.Frame menuFrame 
+      BackColor       =   &H00FFFFC0&
+      BorderStyle     =   0  'None
+      Height          =   1890
+      Index           =   6
+      Left            =   14100
+      TabIndex        =   55
+      Top             =   6450
+      Width           =   3915
+      Begin VB.Line Line1 
+         Index           =   8
+         X1              =   300
+         X2              =   3600
+         Y1              =   1125
+         Y2              =   1125
+      End
+      Begin VB.Label menuOption 
+         BackColor       =   &H0080C0FF&
+         Caption         =   "Χαρακτηρισμοί επιβαινόντων"
+         BeginProperty Font 
+            Name            =   "Ubuntu Condensed"
+            Size            =   11.25
+            Charset         =   161
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00000000&
+         Height          =   315
+         Index           =   45
+         Left            =   300
+         TabIndex        =   71
+         Top             =   1275
+         Width           =   3315
+      End
       Begin VB.Label menuOption 
          BackColor       =   &H0080C0FF&
          Caption         =   "Κινήσεις"
@@ -43,7 +148,7 @@ Begin VB.Form CommonMain
          Index           =   21
          Left            =   300
          MousePointer    =   2  'Cross
-         TabIndex        =   60
+         TabIndex        =   57
          Top             =   300
          Width           =   3315
       End
@@ -63,7 +168,7 @@ Begin VB.Form CommonMain
          Height          =   315
          Index           =   22
          Left            =   300
-         TabIndex        =   59
+         TabIndex        =   56
          Top             =   675
          Width           =   3315
       End
@@ -72,9 +177,9 @@ Begin VB.Form CommonMain
       BackColor       =   &H00FFFFC0&
       BorderStyle     =   0  'None
       Height          =   1290
-      Index           =   8
-      Left            =   24975
-      TabIndex        =   53
+      Index           =   9
+      Left            =   24000
+      TabIndex        =   50
       Top             =   225
       Width           =   3915
       Begin VB.Label menuOption 
@@ -93,7 +198,7 @@ Begin VB.Form CommonMain
          Height          =   315
          Index           =   52
          Left            =   300
-         TabIndex        =   55
+         TabIndex        =   52
          Top             =   675
          Width           =   3315
       End
@@ -114,7 +219,7 @@ Begin VB.Form CommonMain
          Index           =   51
          Left            =   300
          MousePointer    =   2  'Cross
-         TabIndex        =   54
+         TabIndex        =   51
          Top             =   300
          Width           =   3315
       End
@@ -122,12 +227,12 @@ Begin VB.Form CommonMain
    Begin VB.Frame menuFrame 
       BackColor       =   &H00FFFFC0&
       BorderStyle     =   0  'None
-      Height          =   9690
-      Index           =   7
+      Height          =   8715
+      Index           =   8
       Left            =   20025
       TabIndex        =   32
       Top             =   225
-      Width           =   4890
+      Width           =   3915
       Begin VB.Label menuOption 
          BackColor       =   &H0080C0FF&
          Caption         =   "Εταιρίες"
@@ -144,9 +249,9 @@ Begin VB.Form CommonMain
          Height          =   315
          Index           =   4
          Left            =   300
-         TabIndex        =   67
-         Top             =   2775
-         Width           =   4290
+         TabIndex        =   63
+         Top             =   2925
+         Width           =   3315
       End
       Begin VB.Label menuOption 
          BackColor       =   &H0080C0FF&
@@ -164,9 +269,9 @@ Begin VB.Form CommonMain
          Height          =   315
          Index           =   27
          Left            =   300
-         TabIndex        =   66
-         Top             =   3900
-         Width           =   4290
+         TabIndex        =   62
+         Top             =   4050
+         Width           =   3315
       End
       Begin VB.Label menuOption 
          BackColor       =   &H0080C0FF&
@@ -184,9 +289,9 @@ Begin VB.Form CommonMain
          Height          =   315
          Index           =   26
          Left            =   300
-         TabIndex        =   65
-         Top             =   2025
-         Width           =   4290
+         TabIndex        =   61
+         Top             =   2175
+         Width           =   3315
       End
       Begin VB.Label menuOption 
          BackColor       =   &H0080C0FF&
@@ -204,49 +309,9 @@ Begin VB.Form CommonMain
          Height          =   315
          Index           =   25
          Left            =   300
-         TabIndex        =   64
-         Top             =   1650
-         Width           =   4290
-      End
-      Begin VB.Label menuOption 
-         BackColor       =   &H0080C0FF&
-         Caption         =   "Τύποι πελατών"
-         BeginProperty Font 
-            Name            =   "Ubuntu Condensed"
-            Size            =   11.25
-            Charset         =   161
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         ForeColor       =   &H00000000&
-         Height          =   315
-         Index           =   24
-         Left            =   300
-         TabIndex        =   63
-         Top             =   7275
-         Width           =   4290
-      End
-      Begin VB.Label menuOption 
-         BackColor       =   &H0080C0FF&
-         Caption         =   "Ποσοστά Φ.Π.Α."
-         BeginProperty Font 
-            Name            =   "Ubuntu Condensed"
-            Size            =   11.25
-            Charset         =   161
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         ForeColor       =   &H00000000&
-         Height          =   315
-         Index           =   49
-         Left            =   315
-         TabIndex        =   52
-         Top             =   5025
-         Width           =   4290
+         TabIndex        =   60
+         Top             =   1800
+         Width           =   3315
       End
       Begin VB.Label menuOption 
          BackColor       =   &H0080C0FF&
@@ -264,9 +329,9 @@ Begin VB.Form CommonMain
          Height          =   315
          Index           =   47
          Left            =   300
-         TabIndex        =   51
-         Top             =   8775
-         Width           =   4290
+         TabIndex        =   49
+         Top             =   7800
+         Width           =   3315
       End
       Begin VB.Label menuOption 
          BackColor       =   &H0080C0FF&
@@ -284,9 +349,9 @@ Begin VB.Form CommonMain
          Height          =   315
          Index           =   46
          Left            =   315
-         TabIndex        =   50
-         Top             =   8025
-         Width           =   4290
+         TabIndex        =   48
+         Top             =   7050
+         Width           =   3315
       End
       Begin VB.Label menuOption 
          BackColor       =   &H0080C0FF&
@@ -304,9 +369,9 @@ Begin VB.Form CommonMain
          Height          =   315
          Index           =   48
          Left            =   300
-         TabIndex        =   49
-         Top             =   9150
-         Width           =   4290
+         TabIndex        =   47
+         Top             =   8175
+         Width           =   3315
       End
       Begin VB.Label menuOption 
          BackColor       =   &H0080C0FF&
@@ -324,29 +389,9 @@ Begin VB.Form CommonMain
          Height          =   315
          Index           =   44
          Left            =   315
-         TabIndex        =   48
-         Top             =   6900
-         Width           =   4290
-      End
-      Begin VB.Label menuOption 
-         BackColor       =   &H0080C0FF&
-         Caption         =   "Χαρακτηρισμοί επιβαινόντων"
-         BeginProperty Font 
-            Name            =   "Ubuntu Condensed"
-            Size            =   11.25
-            Charset         =   161
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         ForeColor       =   &H00000000&
-         Height          =   315
-         Index           =   45
-         Left            =   315
-         TabIndex        =   47
-         Top             =   7650
-         Width           =   4290
+         TabIndex        =   46
+         Top             =   6675
+         Width           =   3315
       End
       Begin VB.Label menuOption 
          BackColor       =   &H0080C0FF&
@@ -364,29 +409,9 @@ Begin VB.Form CommonMain
          Height          =   315
          Index           =   43
          Left            =   315
-         TabIndex        =   46
-         Top             =   6525
-         Width           =   4290
-      End
-      Begin VB.Label menuOption 
-         BackColor       =   &H0080C0FF&
-         Caption         =   "Τιμοκατάλογοι εκδρομών πλοίων"
-         BeginProperty Font 
-            Name            =   "Ubuntu Condensed"
-            Size            =   11.25
-            Charset         =   161
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         ForeColor       =   &H00000000&
-         Height          =   315
-         Index           =   41
-         Left            =   315
          TabIndex        =   45
-         Top             =   6150
-         Width           =   4290
+         Top             =   6300
+         Width           =   3315
       End
       Begin VB.Label menuOption 
          BackColor       =   &H0080C0FF&
@@ -405,8 +430,8 @@ Begin VB.Form CommonMain
          Index           =   37
          Left            =   315
          TabIndex        =   44
-         Top             =   5400
-         Width           =   4290
+         Top             =   5550
+         Width           =   3315
       End
       Begin VB.Label menuOption 
          BackColor       =   &H0080C0FF&
@@ -425,8 +450,8 @@ Begin VB.Form CommonMain
          Index           =   38
          Left            =   315
          TabIndex        =   43
-         Top             =   5775
-         Width           =   4290
+         Top             =   5925
+         Width           =   3315
       End
       Begin VB.Label menuOption 
          BackColor       =   &H0080C0FF&
@@ -445,8 +470,8 @@ Begin VB.Form CommonMain
          Index           =   31
          Left            =   315
          TabIndex        =   42
-         Top             =   2400
-         Width           =   4290
+         Top             =   2550
+         Width           =   3315
       End
       Begin VB.Label mnuHeader 
          BackColor       =   &H00FFC0C0&
@@ -465,8 +490,8 @@ Begin VB.Form CommonMain
          Index           =   21
          Left            =   300
          TabIndex        =   41
-         Top             =   1275
-         Width           =   4290
+         Top             =   1425
+         Width           =   3315
       End
       Begin VB.Label mnuHeader 
          BackColor       =   &H00FFC0C0&
@@ -485,8 +510,8 @@ Begin VB.Form CommonMain
          Index           =   20
          Left            =   300
          TabIndex        =   40
-         Top             =   150
-         Width           =   4290
+         Top             =   300
+         Width           =   3315
       End
       Begin VB.Label menuOption 
          BackColor       =   &H0080C0FF&
@@ -506,8 +531,8 @@ Begin VB.Form CommonMain
          Left            =   300
          MousePointer    =   2  'Cross
          TabIndex        =   39
-         Top             =   525
-         Width           =   4290
+         Top             =   675
+         Width           =   3315
       End
       Begin VB.Label menuOption 
          BackColor       =   &H0080C0FF&
@@ -526,8 +551,8 @@ Begin VB.Form CommonMain
          Index           =   30
          Left            =   300
          TabIndex        =   38
-         Top             =   900
-         Width           =   4290
+         Top             =   1050
+         Width           =   3315
       End
       Begin VB.Label menuOption 
          BackColor       =   &H0080C0FF&
@@ -547,8 +572,8 @@ Begin VB.Form CommonMain
          Left            =   315
          MousePointer    =   2  'Cross
          TabIndex        =   37
-         Top             =   4275
-         Width           =   4290
+         Top             =   4425
+         Width           =   3315
       End
       Begin VB.Label mnuHeader 
          BackColor       =   &H00FFC0C0&
@@ -567,8 +592,8 @@ Begin VB.Form CommonMain
          Index           =   18
          Left            =   300
          TabIndex        =   36
-         Top             =   8400
-         Width           =   4290
+         Top             =   7425
+         Width           =   3315
       End
       Begin VB.Label menuOption 
          BackColor       =   &H0080C0FF&
@@ -587,8 +612,8 @@ Begin VB.Form CommonMain
          Index           =   33
          Left            =   315
          TabIndex        =   35
-         Top             =   3150
-         Width           =   4290
+         Top             =   3300
+         Width           =   3315
       End
       Begin VB.Label menuOption 
          BackColor       =   &H0080C0FF&
@@ -607,8 +632,8 @@ Begin VB.Form CommonMain
          Index           =   34
          Left            =   315
          TabIndex        =   34
-         Top             =   3525
-         Width           =   4290
+         Top             =   3675
+         Width           =   3315
       End
       Begin VB.Label menuOption 
          BackColor       =   &H0080C0FF&
@@ -628,15 +653,15 @@ Begin VB.Form CommonMain
          Left            =   315
          MousePointer    =   2  'Cross
          TabIndex        =   33
-         Top             =   4650
-         Width           =   4290
+         Top             =   4800
+         Width           =   3315
       End
    End
    Begin VB.Frame menuFrame 
       BackColor       =   &H00FFFFC0&
       BorderStyle     =   0  'None
       Height          =   3240
-      Index           =   6
+      Index           =   7
       Left            =   16050
       TabIndex        =   30
       Top             =   225
@@ -674,7 +699,7 @@ Begin VB.Form CommonMain
          Index           =   42
          Left            =   300
          MousePointer    =   2  'Cross
-         TabIndex        =   72
+         TabIndex        =   68
          Top             =   1650
          Width           =   3315
       End
@@ -695,7 +720,7 @@ Begin VB.Form CommonMain
          Index           =   40
          Left            =   300
          MousePointer    =   2  'Cross
-         TabIndex        =   71
+         TabIndex        =   67
          Top             =   1275
          Width           =   3315
       End
@@ -716,7 +741,7 @@ Begin VB.Form CommonMain
          Index           =   39
          Left            =   300
          MousePointer    =   2  'Cross
-         TabIndex        =   70
+         TabIndex        =   66
          Top             =   675
          Width           =   3315
       End
@@ -737,7 +762,7 @@ Begin VB.Form CommonMain
          Index           =   32
          Left            =   300
          MousePointer    =   2  'Cross
-         TabIndex        =   69
+         TabIndex        =   65
          Top             =   2625
          Width           =   3315
       End
@@ -758,7 +783,7 @@ Begin VB.Form CommonMain
          Index           =   15
          Left            =   300
          MousePointer    =   2  'Cross
-         TabIndex        =   68
+         TabIndex        =   64
          Top             =   2250
          Width           =   3315
       End
@@ -788,7 +813,7 @@ Begin VB.Form CommonMain
       BackColor       =   &H00FFFFC0&
       BorderStyle     =   0  'None
       Height          =   3615
-      Index           =   4
+      Index           =   5
       Left            =   12075
       TabIndex        =   24
       Top             =   225
@@ -823,7 +848,7 @@ Begin VB.Form CommonMain
          Height          =   315
          Index           =   23
          Left            =   300
-         TabIndex        =   62
+         TabIndex        =   59
          Top             =   1650
          Width           =   3315
       End
@@ -844,7 +869,7 @@ Begin VB.Form CommonMain
          Index           =   3
          Left            =   300
          MousePointer    =   2  'Cross
-         TabIndex        =   57
+         TabIndex        =   54
          Top             =   2400
          Width           =   3315
       End
@@ -955,7 +980,7 @@ Begin VB.Form CommonMain
       BackColor       =   &H00FFFFC0&
       BorderStyle     =   0  'None
       Height          =   3615
-      Index           =   3
+      Index           =   4
       Left            =   8100
       TabIndex        =   18
       Top             =   225
@@ -990,7 +1015,7 @@ Begin VB.Form CommonMain
          Height          =   315
          Index           =   11
          Left            =   300
-         TabIndex        =   61
+         TabIndex        =   58
          Top             =   1650
          Width           =   3315
       End
@@ -1011,7 +1036,7 @@ Begin VB.Form CommonMain
          Index           =   0
          Left            =   300
          MousePointer    =   2  'Cross
-         TabIndex        =   56
+         TabIndex        =   53
          Top             =   2400
          Width           =   3315
       End
@@ -1121,12 +1146,32 @@ Begin VB.Form CommonMain
    Begin VB.Frame menuFrame 
       BackColor       =   &H00FFFFC0&
       BorderStyle     =   0  'None
-      Height          =   1890
-      Index           =   2
+      Height          =   2265
+      Index           =   3
       Left            =   4125
       TabIndex        =   14
       Top             =   225
       Width           =   3915
+      Begin VB.Label menuOption 
+         BackColor       =   &H0080C0FF&
+         Caption         =   "Ποσοστά Φ.Π.Α."
+         BeginProperty Font 
+            Name            =   "Ubuntu Condensed"
+            Size            =   11.25
+            Charset         =   161
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00000000&
+         Height          =   315
+         Index           =   49
+         Left            =   300
+         TabIndex        =   69
+         Top             =   1275
+         Width           =   3315
+      End
       Begin VB.Line Line1 
          Index           =   2
          X1              =   300
@@ -1193,19 +1238,39 @@ Begin VB.Form CommonMain
          Left            =   300
          MousePointer    =   2  'Cross
          TabIndex        =   15
-         Top             =   1275
+         Top             =   1650
          Width           =   3315
       End
    End
    Begin VB.Frame menuFrame 
       BackColor       =   &H00FFFFC0&
       BorderStyle     =   0  'None
-      Height          =   1890
+      Height          =   2265
       Index           =   1
       Left            =   150
       TabIndex        =   1
       Top             =   225
       Width           =   3915
+      Begin VB.Label menuOption 
+         BackColor       =   &H0080C0FF&
+         Caption         =   "Τιμοκατάλογοι εκδρομών πλοίων"
+         BeginProperty Font 
+            Name            =   "Ubuntu Condensed"
+            Size            =   11.25
+            Charset         =   161
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00000000&
+         Height          =   315
+         Index           =   41
+         Left            =   300
+         TabIndex        =   70
+         Top             =   1275
+         Width           =   3315
+      End
       Begin VB.Line Line1 
          Index           =   6
          X1              =   300
@@ -1231,7 +1296,7 @@ Begin VB.Form CommonMain
          Left            =   300
          MousePointer    =   2  'Cross
          TabIndex        =   13
-         Top             =   1275
+         Top             =   1650
          Width           =   3315
       End
       Begin VB.Label menuOption 
@@ -1283,7 +1348,7 @@ Begin VB.Form CommonMain
       Left            =   975
       TabIndex        =   2
       Top             =   4200
-      Width           =   12840
+      Width           =   14715
       Begin GurhanButtonOCX.GurhanButton cmdMenu 
          Height          =   840
          Index           =   1
@@ -1314,8 +1379,8 @@ Begin VB.Form CommonMain
       End
       Begin GurhanButtonOCX.GurhanButton cmdMenu 
          Height          =   840
-         Index           =   2
-         Left            =   1725
+         Index           =   3
+         Left            =   3300
          TabIndex        =   4
          Top             =   150
          Width           =   1515
@@ -1342,8 +1407,8 @@ Begin VB.Form CommonMain
       End
       Begin GurhanButtonOCX.GurhanButton cmdMenu 
          Height          =   840
-         Index           =   3
-         Left            =   3300
+         Index           =   4
+         Left            =   4875
          TabIndex        =   5
          Top             =   150
          Width           =   1515
@@ -1370,8 +1435,8 @@ Begin VB.Form CommonMain
       End
       Begin GurhanButtonOCX.GurhanButton cmdMenu 
          Height          =   840
-         Index           =   4
-         Left            =   4875
+         Index           =   5
+         Left            =   6450
          TabIndex        =   6
          Top             =   150
          Width           =   1515
@@ -1398,8 +1463,8 @@ Begin VB.Form CommonMain
       End
       Begin GurhanButtonOCX.GurhanButton cmdMenu 
          Height          =   840
-         Index           =   5
-         Left            =   6450
+         Index           =   6
+         Left            =   8025
          TabIndex        =   7
          Top             =   150
          Width           =   1515
@@ -1426,8 +1491,8 @@ Begin VB.Form CommonMain
       End
       Begin GurhanButtonOCX.GurhanButton cmdMenu 
          Height          =   840
-         Index           =   6
-         Left            =   8025
+         Index           =   7
+         Left            =   9600
          TabIndex        =   8
          Top             =   150
          Width           =   1515
@@ -1454,8 +1519,8 @@ Begin VB.Form CommonMain
       End
       Begin GurhanButtonOCX.GurhanButton cmdMenu 
          Height          =   840
-         Index           =   7
-         Left            =   9600
+         Index           =   8
+         Left            =   11175
          TabIndex        =   9
          Top             =   150
          Width           =   1515
@@ -1483,8 +1548,8 @@ Begin VB.Form CommonMain
       End
       Begin GurhanButtonOCX.GurhanButton cmdMenu 
          Height          =   840
-         Index           =   8
-         Left            =   11175
+         Index           =   9
+         Left            =   12750
          TabIndex        =   10
          Top             =   150
          Width           =   1515
@@ -1505,6 +1570,34 @@ Begin VB.Form CommonMain
          EndProperty
          MousePointer    =   2
          BackColor       =   8421631
+         ForeColor       =   0
+         BEVEL           =   0
+         BEVELDEPTH      =   0
+      End
+      Begin GurhanButtonOCX.GurhanButton cmdMenu 
+         Height          =   840
+         Index           =   2
+         Left            =   1725
+         TabIndex        =   72
+         Top             =   150
+         Width           =   1515
+         _ExtentX        =   2672
+         _ExtentY        =   1482
+         Caption         =   "Εσοδα"
+         ButtonStyle     =   3
+         OriginalPicSizeW=   0
+         OriginalPicSizeH=   0
+         BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+            Name            =   "Ubuntu Condensed"
+            Size            =   11.25
+            Charset         =   161
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         MousePointer    =   2
+         BackColor       =   12632064
          ForeColor       =   0
          BEVEL           =   0
          BEVELDEPTH      =   0
@@ -1632,49 +1725,49 @@ Private Function PositionCompanyLabel()
 
 End Function
 
-Private Sub cmdMenu_Click(Index As Integer)
+Private Sub cmdMenu_Click(index As Integer)
 
     Dim intLoop As Integer
     
     HideAllMenus
     
     For intLoop = 0 To cmdMenu.UBound
-        If Index = intLoop Then
-            menuFrame(intLoop).Left = cmdMenu(Index).Left + frmNavigation.Left + 20
+        If index = intLoop Then
+            menuFrame(intLoop).Left = cmdMenu(index).Left + frmNavigation.Left + 20
             menuFrame(intLoop).Visible = Not menuFrame(intLoop).Visible
         End If
     Next intLoop
 
 End Sub
 
-Private Sub cmdMenu_MouseIn(Index As Integer, Shift As Integer)
+Private Sub cmdMenu_MouseIn(index As Integer, Shift As Integer)
 
-    Select Case Index
+    Select Case index
         Case Is < 7
-            cmdMenu(Index).BackColor = &H808000
-            cmdMenu(Index).ForeColor = &HFFFFFF
+            cmdMenu(index).BackColor = &H808000
+            cmdMenu(index).ForeColor = &HFFFFFF
         Case Is = 7
-            cmdMenu(Index).BackColor = &H404000
-            cmdMenu(Index).ForeColor = &HFFFFFF
+            cmdMenu(index).BackColor = &H404000
+            cmdMenu(index).ForeColor = &HFFFFFF
         Case Is = 8
-            cmdMenu(Index).BackColor = &HFF&
-            cmdMenu(Index).ForeColor = &HFFFFFF
+            cmdMenu(index).BackColor = &HFF&
+            cmdMenu(index).ForeColor = &HFFFFFF
         End Select
     
 End Sub
 
-Private Sub cmdMenu_MouseOut(Index As Integer, Shift As Integer)
+Private Sub cmdMenu_MouseOut(index As Integer, Shift As Integer)
 
-    Select Case Index
+    Select Case index
         Case Is < 7
-            cmdMenu(Index).BackColor = &HC0C000
-            cmdMenu(Index).ForeColor = &H0
+            cmdMenu(index).BackColor = &HC0C000
+            cmdMenu(index).ForeColor = &H0
         Case Is = 7
-            cmdMenu(Index).BackColor = &H808000
-            cmdMenu(Index).ForeColor = &H0
+            cmdMenu(index).BackColor = &H808000
+            cmdMenu(index).ForeColor = &H0
         Case Is = 8
-            cmdMenu(Index).BackColor = &H8080FF
-            cmdMenu(Index).ForeColor = &H0
+            cmdMenu(index).BackColor = &H8080FF
+            cmdMenu(index).ForeColor = &H0
         End Select
         
 End Sub
@@ -1762,14 +1855,14 @@ Private Function CloseApp()
 
 End Function
 
-Private Sub menuFrame_MouseMove(Index As Integer, Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub menuFrame_MouseMove(index As Integer, Button As Integer, Shift As Integer, X As Single, Y As Single)
 
     On Error GoTo ErrTrap
     
     Dim intLoop As Integer
     
     For intLoop = 0 To menuOption.UBound
-        menuOption(intLoop).BackColor = menuFrame(Index).BackColor
+        menuOption(intLoop).BackColor = menuFrame(index).BackColor
     Next
     
     Exit Sub
@@ -1780,14 +1873,14 @@ ErrTrap:
 End Sub
 
 
-Private Sub menuOption_Click(Index As Integer)
+Private Sub menuOption_Click(index As Integer)
 
     Dim obj As Object
 
     HideAllMenus
-    menuOption(Index).BackColor = &HFFFFC0
+    menuOption(index).BackColor = &HFFFFC0
     
-    Select Case Index
+    Select Case index
         'Εσοδα
         Case 1
             With InvoicesOut 'OK
@@ -2105,6 +2198,11 @@ Private Sub menuOption_Click(Index As Integer)
                 .Tag = "True"
                 .Visible = True
             End With
+        Case 24
+            With TablesRevenueSources
+                .Tag = "True"
+                .Visible = True
+            End With
         Case 26
             With TablesManagers
                 .Tag = "True"
@@ -2126,10 +2224,10 @@ Private Sub menuOption_Click(Index As Integer)
 
 End Sub
 
-Private Sub menuOption_MouseMove(Index As Integer, Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub menuOption_MouseMove(index As Integer, Button As Integer, Shift As Integer, X As Single, Y As Single)
 
-    If x >= menuOption(Index).Left - 1200 Then
-        menuOption(Index).BackColor = &H80C0FF: Exit Sub
+    If X >= menuOption(index).Left - 1200 Then
+        menuOption(index).BackColor = &H80C0FF: Exit Sub
     End If
 
 End Sub

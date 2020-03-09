@@ -11,3 +11,16 @@
 08/03/2020 11:25 Data type conversion error.
 08/03/2020 13:52 The specified field 'ID' could refer to more than one table listed in the FROM clause of your SQL statement.
 08/03/2020 14:32 Subscript out of range.
+09/03/2020 16:05 The Microsoft Jet database engine cannot find the input table or query 'Revenues'.  Make sure it exists and that its name is spelled correctly.
+09/03/2020 16:05 'ID' is not an index in this table.
+09/03/2020 16:07 The Microsoft Jet database engine cannot find the input table or query 'Revenues'.  Make sure it exists and that its name is spelled correctly.
+09/03/2020 16:07 'ID' is not an index in this table.
+09/03/2020 16:08 The Microsoft Jet database engine cannot find the input table or query 'Revenues'.  Make sure it exists and that its name is spelled correctly.
+09/03/2020 16:08 'ID' is not an index in this table.
+09/03/2020 16:10 The Microsoft Jet database engine cannot find the input table or query 'Revenues'.  Make sure it exists and that its name is spelled correctly.
+09/03/2020 16:10 'ID' is not an index in this table.
+09/03/2020 16:12 The Microsoft Jet database engine cannot find the input table or query 'Revenues'.  Make sure it exists and that its name is spelled correctly.
+09/03/2020 16:12 'ID' is not an index in this table.
+09/03/2020 16:13 'ID' is not an index in this table.
+09/03/2020 16:13 'ID' is not an index in this table.
+09/03/2020 16:14 'ID' is not an index in this table.
