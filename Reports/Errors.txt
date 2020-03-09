@@ -24,3 +24,7 @@
 09/03/2020 16:13 'ID' is not an index in this table.
 09/03/2020 16:13 'ID' is not an index in this table.
 09/03/2020 16:14 'ID' is not an index in this table.
+09/03/2020 17:47 Too few parameters. Expected 1.
+09/03/2020 17:48 Too few parameters. Expected 1.
+09/03/2020 17:53 Data type conversion error.
+09/03/2020 17:53 Η εγγραφή δεν αποθηκεύτηκε.

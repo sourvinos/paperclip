@@ -24,9 +24,9 @@ Begin VB.Form Employees
       BorderStyle     =   0  'None
       Height          =   5040
       Index           =   1
-      Left            =   3225
+      Left            =   2625
       TabIndex        =   40
-      Top             =   300
+      Top             =   6000
       Width           =   8940
       Begin iGrid300_10Tec.iGrid grdAgreements 
          Height          =   3650
@@ -1943,7 +1943,7 @@ End Sub
 
 Private Sub txtCompanyDescription_Validate(Cancel As Boolean)
     
-    If txtCompanyID.text = "" And txtCompanyDescription.text <> "" Then cmdIndex_Click 0: If txtCompanyID.text = "" Then Cancel = True
+    If txtCompanyID.text = "" And txtCompanyDescription.text <> "" Then cmdIndex_Click 6: If txtCompanyID.text = "" Then Cancel = True
     
 End Sub
 

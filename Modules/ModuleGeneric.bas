@@ -726,8 +726,8 @@ Function HighlightRow(grdGrid As iGrid, lngSelectedRow, lngColumn, strID, blnRow
                 grdGrid.SetCurCell 1, lngColumn
                 grdGrid.EnsureVisibleRow 1
             Else
-                grdGrid.SetCurCell lngSelectedRow - 1, lngColumn
-                grdGrid.EnsureVisibleRow lngSelectedRow - 1
+                'grdGrid.SetCurCell lngSelectedRow - 1, lngColumn
+                'grdGrid.EnsureVisibleRow lngSelectedRow - 1
             End If
             grdGrid.RowMode = blnRowMode
             grdGrid.SetFocus
