@@ -1725,49 +1725,49 @@ Private Function PositionCompanyLabel()
 
 End Function
 
-Private Sub cmdMenu_Click(Index As Integer)
+Private Sub cmdMenu_Click(index As Integer)
 
     Dim intLoop As Integer
     
     HideAllMenus
     
     For intLoop = 0 To cmdMenu.UBound
-        If Index = intLoop Then
-            menuFrame(intLoop).Left = cmdMenu(Index).Left + frmNavigation.Left + 20
+        If index = intLoop Then
+            menuFrame(intLoop).Left = cmdMenu(index).Left + frmNavigation.Left + 20
             menuFrame(intLoop).Visible = Not menuFrame(intLoop).Visible
         End If
     Next intLoop
 
 End Sub
 
-Private Sub cmdMenu_MouseIn(Index As Integer, Shift As Integer)
+Private Sub cmdMenu_MouseIn(index As Integer, Shift As Integer)
 
-    Select Case Index
+    Select Case index
         Case Is < 7
-            cmdMenu(Index).BackColor = &H808000
-            cmdMenu(Index).ForeColor = &HFFFFFF
+            cmdMenu(index).BackColor = &H808000
+            cmdMenu(index).ForeColor = &HFFFFFF
         Case Is = 7
-            cmdMenu(Index).BackColor = &H404000
-            cmdMenu(Index).ForeColor = &HFFFFFF
+            cmdMenu(index).BackColor = &H404000
+            cmdMenu(index).ForeColor = &HFFFFFF
         Case Is = 8
-            cmdMenu(Index).BackColor = &HFF&
-            cmdMenu(Index).ForeColor = &HFFFFFF
+            cmdMenu(index).BackColor = &HFF&
+            cmdMenu(index).ForeColor = &HFFFFFF
         End Select
     
 End Sub
 
-Private Sub cmdMenu_MouseOut(Index As Integer, Shift As Integer)
+Private Sub cmdMenu_MouseOut(index As Integer, Shift As Integer)
 
-    Select Case Index
+    Select Case index
         Case Is < 7
-            cmdMenu(Index).BackColor = &HC0C000
-            cmdMenu(Index).ForeColor = &H0
+            cmdMenu(index).BackColor = &HC0C000
+            cmdMenu(index).ForeColor = &H0
         Case Is = 7
-            cmdMenu(Index).BackColor = &H808000
-            cmdMenu(Index).ForeColor = &H0
+            cmdMenu(index).BackColor = &H808000
+            cmdMenu(index).ForeColor = &H0
         Case Is = 8
-            cmdMenu(Index).BackColor = &H8080FF
-            cmdMenu(Index).ForeColor = &H0
+            cmdMenu(index).BackColor = &H8080FF
+            cmdMenu(index).ForeColor = &H0
         End Select
         
 End Sub
@@ -1855,14 +1855,14 @@ Private Function CloseApp()
 
 End Function
 
-Private Sub menuFrame_MouseMove(Index As Integer, Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub menuFrame_MouseMove(index As Integer, Button As Integer, Shift As Integer, X As Single, Y As Single)
 
     On Error GoTo ErrTrap
     
     Dim intLoop As Integer
     
     For intLoop = 0 To menuOption.UBound
-        menuOption(intLoop).BackColor = menuFrame(Index).BackColor
+        menuOption(intLoop).BackColor = menuFrame(index).BackColor
     Next
     
     Exit Sub
@@ -1873,14 +1873,14 @@ ErrTrap:
 End Sub
 
 
-Private Sub menuOption_Click(Index As Integer)
+Private Sub menuOption_Click(index As Integer)
 
     Dim obj As Object
 
     HideAllMenus
-    menuOption(Index).BackColor = &HFFFFC0
+    menuOption(index).BackColor = &HFFFFC0
     
-    Select Case Index
+    Select Case index
         'Εσοδα
         Case 1
             With InvoicesOut 'OK
@@ -2218,6 +2218,11 @@ Private Sub menuOption_Click(Index As Integer)
                 .Tag = "True"
                 .Visible = True
             End With
+        Case 53
+            With RevenuesIndex
+                .Tag = "True"
+                .Visible = True
+            End With
         Case 52
             If CloseApp Then
                 For Each obj In Forms
@@ -2229,10 +2234,10 @@ Private Sub menuOption_Click(Index As Integer)
 
 End Sub
 
-Private Sub menuOption_MouseMove(Index As Integer, Button As Integer, Shift As Integer, x As Single, Y As Single)
+Private Sub menuOption_MouseMove(index As Integer, Button As Integer, Shift As Integer, X As Single, Y As Single)
 
-    If x >= menuOption(Index).Left - 1200 Then
-        menuOption(Index).BackColor = &H80C0FF: Exit Sub
+    If X >= menuOption(index).Left - 1200 Then
+        menuOption(index).BackColor = &H80C0FF: Exit Sub
     End If
 
 End Sub

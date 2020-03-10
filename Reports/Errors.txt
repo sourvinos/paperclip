@@ -28,3 +28,9 @@
 09/03/2020 17:48 Too few parameters. Expected 1.
 09/03/2020 17:53 Data type conversion error.
 09/03/2020 17:53 Η εγγραφή δεν αποθηκεύτηκε.
+10/03/2020 15:49 Syntax error in FROM clause.
+10/03/2020 16:03 Too few parameters. Expected 1.
+10/03/2020 16:04 The table 'Ships' is already opened exclusively by another user, or it is already open through the user interface and cannot be manipulated programmatically.
+10/03/2020 16:05 Too few parameters. Expected 1.
+10/03/2020 16:06 Query must have at least one destination field.
+10/03/2020 16:07 Query must have at least one destination field.
