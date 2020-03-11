@@ -1138,6 +1138,7 @@ Private Function AbortProcedure(blnStatus)
     End If
     
     If blnStatus Then
+        Set RevenuesIndex = Nothing
         Unload Me
     End If
 
@@ -1564,10 +1565,14 @@ Private Function EditRecord()
     
     Revenues.DoPostFoundJobs rstRecordset
     Revenues.Tag = "True"
+    
     If Revenues.Visible Then
+        Set RevenuesIndex = Nothing
         Unload Me
+        Revenues.Show
     Else
         Revenues.Show 1, Me
+        grdRevenuesIndex.SetFocus
     End If
     
 End Function

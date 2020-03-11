@@ -1178,6 +1178,7 @@ Private Sub AbortProcedure(blnStatus)
     End If
     
     If blnStatus Then
+        Set Revenues = Nothing
         Unload Me
     End If
     

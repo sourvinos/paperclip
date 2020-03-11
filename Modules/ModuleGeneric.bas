@@ -1016,9 +1016,9 @@ Function KillProcess(appName)
 
 End Function
 
-Function UpdateRegistryWithUserData(company, user, password)
+Function UpdateRegistryWithUserData(Company, user, password)
 
-    SaveSetting strApplicationName, "Settings", "LastCompany", company
+    SaveSetting strApplicationName, "Settings", "LastCompany", Company
     SaveSetting strApplicationName, "Settings", "LastUserNameIndex", user
     SaveSetting strApplicationName, "Settings", "LastPassword", password
 
@@ -1093,7 +1093,7 @@ Function CaptureNumbers(strString, tmpRow, tmpCol, tmpKeyAscii, blnDecimals)
 
 End Function
 
-Function SimpleSeek(table, Index, ParamArray Indexes() As Variant)
+Function SimpleSeek(table, index, ParamArray Indexes() As Variant)
 
     On Error GoTo ErrTrap
     
@@ -1110,7 +1110,7 @@ Function SimpleSeek(table, Index, ParamArray Indexes() As Variant)
     Set rsTable = CommonDB.OpenRecordset(table)
 
     With rsTable
-        .Index = Index
+        .index = index
         If UBound(Indexes) = 0 Then .Seek "=", Indexes(0)
         If UBound(Indexes) = 1 Then .Seek "=", Indexes(0), Indexes(1)
         If .NoMatch Then SimpleSeek = True 'Αν η εγγραφή δεν βρεθεί, μπορώ να την διαγράψω
@@ -1249,27 +1249,27 @@ End Sub
 
 Sub DisableFields(ParamArray tmpFields())
 
-    Dim x As Byte
+    Dim X As Byte
     
-    For x = 0 To UBound(tmpFields)
-        tmpFields(x).Enabled = False
-        If Left(tmpFields(x).Name, 3) = "grd" Then
-            tmpFields(x).Editable = True
+    For X = 0 To UBound(tmpFields)
+        tmpFields(X).Enabled = False
+        If Left(tmpFields(X).Name, 3) = "grd" Then
+            tmpFields(X).Editable = True
         End If
-    Next x
+    Next X
 
 End Sub
 
 Sub EnableFields(ParamArray tmpFields())
     
-    Dim x As Byte
+    Dim X As Byte
     
-    For x = 0 To UBound(tmpFields)
-        tmpFields(x).Enabled = True
-        If Left(tmpFields(x).Name, 3) = "grd" Then
-            tmpFields(x).Editable = True
+    For X = 0 To UBound(tmpFields)
+        tmpFields(X).Enabled = True
+        If Left(tmpFields(X).Name, 3) = "grd" Then
+            tmpFields(X).Editable = True
         End If
-    Next x
+    Next X
 
 End Sub
 
@@ -1291,7 +1291,7 @@ Function MainDeleteRecord(SelectedDB, table, FormTitle, IndexField, CodeToSeek, 
     End Select
 
     With rsTable
-        .Index = IndexField
+        .index = IndexField
         .Seek "=", CodeToSeek
         If Not .NoMatch Then
             If AskConfirmation = False Then
@@ -1343,7 +1343,7 @@ Function MainSeekRecord(SelectedDB, table, IndexField, CodeToSeek, DisplayNotFou
     MainSeekRecord = True
     
     With rsTable
-        .Index = IndexField
+        .index = IndexField
         .Seek "=", CodeToSeek
         If Not .NoMatch Then
             For bytLoop = 0 To UBound(Fields)
@@ -1516,7 +1516,7 @@ Function MainSaveRecord(SelectedDB, table, Status, FormTitle, IndexField, CodeTo
     End Select
     
     With rsTable
-        .Index = IndexField
+        .index = IndexField
         If Status Then
             .AddNew
         Else
@@ -1659,13 +1659,13 @@ End Function
 
 Function AdjustColumnWidths(sheet As Object, ParamArray Columns() As Variant)
 
-    Dim x As Integer
+    Dim X As Integer
     
     'Excel
     With sheet
-        For x = 0 To UBound(Columns) - 1 / 2 Step 2
-            .Columns(Columns(x)).columnWidth = Columns(x + 1)
-        Next x
+        For X = 0 To UBound(Columns) - 1 / 2 Step 2
+            .Columns(Columns(X)).columnWidth = Columns(X + 1)
+        Next X
     End With
 
 End Function
@@ -1687,21 +1687,21 @@ Function AddHeaders(sheet As Object, grid As iGrid, colCount As Long, ParamArray
 
     On Error Resume Next
     
-    Dim x As Integer
+    Dim X As Integer
     Dim z As Integer
     Dim lngColCount As Long
     lngColCount = UBound(Columns) + 1
     
-    x = 0
+    X = 0
     z = 1
     
     With sheet
         .Range("A9:" & Chr(colCount + 64) & "9").WrapText = True
         .Range("A9:" & Chr(colCount + 64) & "9").HorizontalAlignment = 3
         .Range("A9:" & Chr(colCount + 64) & "9").VerticalAlignment = 2
-        Do While x < lngColCount
-            .Range("" & Columns(x) & "9").Value = grid.ColHeaderText(z)
-            x = x + 2
+        Do While X < lngColCount
+            .Range("" & Columns(X) & "9").Value = grid.ColHeaderText(z)
+            X = X + 2
             z = z + 1
         Loop
         .rows("9").RowHeight = 30
