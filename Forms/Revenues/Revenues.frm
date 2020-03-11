@@ -1160,8 +1160,6 @@ Attribute VB_Exposed = False
 Option Explicit
  
 Dim blnStatus As Boolean
-Dim blnCancel As Boolean
-Dim blnPrinterHasBeenSelected As Boolean
 Dim lngTrnID As Long
 Dim IsError As Boolean
 
@@ -1170,12 +1168,11 @@ Private Sub AbortProcedure(blnStatus)
     If Not blnStatus Then
         If MyMsgBox(3, strApplicationName, strStandardMessages(3), 2) Then
             blnStatus = False
-            blnCancel = True
             ClearFields txtID, txtCompanyID, txtShipID, txtDestinationID, txtSourceID, txtPaymentWayID
             ClearFields mskDateIssue, txtCompanyDescription, txtShipDescription, txtDestinationDescription, txtSourceDescription, txtPaymentWayDescription, mskAmount
             DisableFields mskDateIssue, txtCompanyDescription, txtShipDescription, txtDestinationDescription, txtSourceDescription, txtPaymentWayDescription, mskAmount
             DisableFields cmdIndex(0), cmdIndex(1), cmdIndex(2), cmdIndex(3), cmdIndex(4), cmdIndex(5), cmdIndex(6), cmdIndex(7), cmdIndex(8), cmdIndex(9)
-            UpdateButtons Me, 5, 1, 0, 0, 1, 0, 1
+            UpdateButtons Me, 5, 1, 0, 0, IIf(CheckForLoadedForm("RevenuesIndex"), 0, 1), 0, 1
         End If
         Exit Sub
     End If
@@ -1189,12 +1186,11 @@ End Sub
 Private Sub DeleteRecord()
     
     If MainDeleteRecord("CommonDB", "Revenues", strApplicationName, "ID", txtID.text, True) Then
-        blnCancel = True
         ClearFields txtID, txtCompanyID, txtShipID, txtDestinationID, txtSourceID, txtPaymentWayID
         ClearFields mskDateIssue, txtCompanyDescription, txtShipDescription, txtDestinationDescription, txtSourceDescription, txtPaymentWayDescription
         DisableFields mskDateIssue, txtCompanyDescription, txtShipDescription, txtDestinationDescription, txtSourceDescription, txtPaymentWayDescription
         DisableFields cmdIndex(0), cmdIndex(1), cmdIndex(2), cmdIndex(3), cmdIndex(4), cmdIndex(5), cmdIndex(6), cmdIndex(7), cmdIndex(8), cmdIndex(9)
-        UpdateButtons Me, 5, 1, 0, 0, 1, 0, 1
+        UpdateButtons Me, 5, 1, 0, 0, IIf(CheckForLoadedForm("RevenuesIndex"), 0, 1), 0, 1
     End If
     
 End Sub
@@ -1206,11 +1202,13 @@ Public Function DoPostFoundJobs(rstRecordset As Recordset)
     blnStatus = False
 
     DisableFields mskDateIssue, txtCompanyDescription, txtShipDescription, txtDestinationDescription, txtSourceDescription, txtPaymentWayDescription
-    blnCancel = False
     DisableFields cmdIndex(0), cmdIndex(1), cmdIndex(2), cmdIndex(3), cmdIndex(4), cmdIndex(5), cmdIndex(6), cmdIndex(7), cmdIndex(8), cmdIndex(9)
     PopulateFields rstRecordset
+    EnableFields mskDateIssue, txtCompanyDescription, txtShipDescription, txtDestinationDescription, txtSourceDescription, txtPaymentWayDescription, mskAmount
+    EnableFields cmdIndex(0), cmdIndex(1), cmdIndex(2), cmdIndex(3), cmdIndex(4), cmdIndex(5), cmdIndex(6), cmdIndex(7), cmdIndex(8), cmdIndex(9)
+    'mskDateIssue.SetFocus
     UpdateButtons Me, 5, 0, 1, 1, 0, 1, 0
-        
+    
     Exit Function
     
 ErrTrap:
@@ -1221,7 +1219,6 @@ End Function
 Private Sub NewRecord()
     
     blnStatus = True
-    blnCancel = False
     
     ClearFields txtID, txtCompanyID, txtShipID, txtDestinationID, txtSourceID, txtPaymentWayID
     ClearFields mskDateIssue, txtCompanyDescription, txtShipDescription, txtDestinationDescription, txtSourceDescription, txtPaymentWayDescription, mskAmount
@@ -1243,6 +1240,7 @@ Private Function PopulateFields(rstRecordset As Recordset)
     With rstRecordset
     
         txtID.text = !id
+        
         txtCompanyID.text = !CompanyID
         txtShipID.text = !shipID
         txtDestinationID.text = !DestinationID
@@ -1250,7 +1248,12 @@ Private Function PopulateFields(rstRecordset As Recordset)
         txtPaymentWayID.text = !PaymentWayID
         
         mskDateIssue.text = format(!DateIssue, "dd/mm/yyyy")
+        
         txtCompanyDescription.text = !CompanyDescription
+        txtShipDescription.text = !ShipDescription
+        txtDestinationDescription.text = !DestinationDescription
+        txtSourceDescription.text = !SourceDesciption
+        txtPaymentWayDescription.text = !PaymentWayDescription
         
         mskAmount.text = format(!amount, "#,##0.00")
         
@@ -1316,12 +1319,11 @@ Private Function SaveRecord()
         DisplayErrorMessage True, strStandardMessages(5)
         Exit Function
     Else
-        blnCancel = True
         ClearFields txtID, txtCompanyID, txtShipID, txtDestinationID, txtSourceID, txtPaymentWayID
         ClearFields mskDateIssue, txtCompanyDescription, txtShipDescription, txtDestinationDescription, txtSourceDescription, txtPaymentWayDescription, mskAmount
         DisableFields mskDateIssue, txtCompanyDescription, txtShipDescription, txtDestinationDescription, txtSourceDescription, txtPaymentWayDescription, mskAmount
         DisableFields cmdIndex(0), cmdIndex(1), cmdIndex(2), cmdIndex(3), cmdIndex(4), cmdIndex(5), cmdIndex(6), cmdIndex(7), cmdIndex(8), cmdIndex(9)
-        UpdateButtons Me, 5, 1, 0, 0, 1, 0, 1
+        UpdateButtons Me, 5, 1, 0, 0, IIf(CheckForLoadedForm("RevenuesIndex"), 0, 1), 0, 1
     End If
     
 End Function
@@ -1388,11 +1390,11 @@ Private Function ValidateFields()
 
 End Function
 
-Private Sub cmdButton_Click(Index As Integer)
+Private Sub cmdButton_Click(index As Integer)
 
     Dim arrDummy()
     
-    Select Case Index
+    Select Case index
         Case 0
             NewRecord
         Case 1
@@ -1411,21 +1413,19 @@ End Sub
 
 Private Function FindRecords()
 
-    'With InvoicesOutIndex
-    '    .Tag = "True"
-    '    .txtInvoiceMasterRefersTo.text = txtInvoiceMasterRefersTo.text
-    '    .txtInvoiceSecondaryRefersTo.text = txtInvoiceSecondaryRefersTo.text
-    '    .Show 1, Me
-    'End With
+    With RevenuesIndex
+        .Tag = "True"
+        .Show 1, Me
+    End With
 
 End Function
 
-Private Sub cmdIndex_Click(Index As Integer)
+Private Sub cmdIndex_Click(index As Integer)
 
     Dim tmpTableData As typTableData
     Dim tmpRecordset As Recordset
     
-    Select Case Index
+    Select Case index
         Case 0
             'Εταιρία - F2
             Set tmpRecordset = CheckForMatch("CommonDB", "Companies", "Description", "String", txtCompanyDescription.text)
@@ -1516,74 +1516,6 @@ Private Sub Form_KeyDown(KeyCode As Integer, Shift As Integer)
 
 End Sub
 
-Public Function SeekRecord(lngTrnID)
-
-    Dim intIndex As Byte
-    Dim strThisQuery As String
-    Dim strParameters As String
-    Dim strParFields As String
-    Dim strThisParameter As String
-    Dim strOrder As String
-    Dim strLogic As String
-    Dim arrQuery() As Variant
-    Dim strSQL As String
-    
-    Dim rstRecordset As Recordset
-    
-    strSQL = "SELECT " _
-        & "Invoices.InvoiceID, Invoices.InvoiceTrnID, Invoices.InvoiceMasterRefersTo, Invoices.InvoiceSecondaryRefersTo, Invoices.InvoiceDateIssue, Invoices.InvoiceDateIn, Invoices.InvoiceDateRefersTo, Invoices.InvoiceCodeID, Invoices.InvoiceNo, Invoices.InvoicePersonID, " _
-        & "InvoicesOut.InvoiceOutAgreement, InvoicesOut.InvoiceOutAdultsWithTransfer, InvoicesOut.InvoiceOutKidsWithTransfer, InvoicesOut.InvoiceOutFreeWithTransfer, InvoicesOut.InvoiceOutAdultsWithoutTransfer, InvoicesOut.InvoiceOutKidsWithoutTransfer, InvoicesOut.InvoiceOutFreeWithoutTransfer, InvoicesOut.InvoiceOutAdultsAmountWithTransfer, InvoicesOut.InvoiceOutKidsAmountWithTransfer, InvoicesOut.InvoiceOutAdultsAmountWithoutTransfer, InvoicesOut.InvoiceOutKidsAmountWithoutTransfer, InvoicesOut.InvoiceOutDirectAmount, InvoicesOut.InvoiceOutVATPercent, InvoicesOut.InvoiceOutReason, InvoicesOut.InvoiceOutDestinationID, InvoicesOut.InvoiceOutShipID, InvoicesOut.InvoiceOutPaymentTermID, " _
-        & "Codes.CodeShortDescriptionA, Codes.CodeDescription, Codes.CodeBatch, Codes.CodeHandID, Codes.CodeCustomers, Codes.CodeLastNo, Codes.CodeLastDate, " _
-        & "Customers.Description, Customers.Profession, Customers.Address, Customers.TaxNo, " _
-        & "Ships.ShipDescription, Ships.ShipRegistryNo, " _
-        & "PaymentTerms.PaymentTermCreditID, PaymentTerms.PaymentTermDescription, " _
-        & "Destinations.DestinationDescription, " _
-        & "TaxOffices.TaxOfficeDescription " _
-        & "FROM (((((((Invoices " _
-        & "INNER JOIN InvoicesOut ON Invoices.InvoiceTrnID = InvoicesOut.InvoiceOutTrnID) " _
-        & "INNER JOIN Codes ON Invoices.InvoiceCodeID = Codes.CodeID) " _
-        & "INNER JOIN Customers ON Invoices.InvoicePersonID = Customers.ID) " _
-        & "INNER JOIN Ships ON InvoicesOut.InvoiceOutShipID = Ships.ShipID) " _
-        & "INNER JOIN PaymentTerms ON InvoicesOut.InvoiceOutPaymentTermID = PaymentTerms.PaymentTermID) " _
-        & "INNER JOIN Destinations ON InvoicesOut.InvoiceOutDestinationID = Destinations.DestinationID) " _
-        & "INNER JOIN TaxOffices ON Customers.TaxOfficeID = TaxOffices.TaxOfficeID) "
-        
-    'InvoiceTrnID
-    strThisParameter = "lngInvoiceTrnID long"
-    strThisQuery = "Invoices.InvoiceTrnID = lngInvoiceTrnID"
-    strLogic = " AND "
-    GoSub UpdateSQLString
-    arrQuery(intIndex) = lngTrnID
-
-    Set TempQuery = CommonDB.CreateQueryDef("")
-    
-    strParameters = "PARAMETERS " & strParameters & "; "
-    strParFields = "WHERE " & strParFields
-    strSQL = strParameters & strSQL & strParFields
-    TempQuery.SQL = strSQL & strOrder
-    
-    For intIndex = 1 To UBound(arrQuery)
-        TempQuery.Parameters(intIndex - 1) = arrQuery(intIndex)
-    Next intIndex
-    
-    Set rstRecordset = TempQuery.OpenRecordset()
-    
-    Set SeekRecord = rstRecordset
-    
-    Exit Function
-
-UpdateSQLString:
-    intIndex = intIndex + 1
-    strParameters = IIf(intIndex > 1, strParameters & ", ", strParameters)
-    strParFields = IIf(intIndex > 1, strParFields & strLogic, strParFields)
-    strParameters = strParameters & strThisParameter
-    strParFields = strParFields & strThisQuery
-    ReDim Preserve arrQuery(intIndex)
-    
-    Return
-
-End Function
-
 Private Function CheckFunctionKeys(KeyCode, Shift)
     
     Dim ShiftDown, AltDown, CtrlDown
@@ -1614,14 +1546,13 @@ Private Sub Form_Load()
 
     PositionControls Me, False
     ColorizeControls Me, False, False
-    blnCancel = True
     
     ClearFields txtID, txtCompanyID, txtShipID, txtDestinationID, txtSourceID, txtPaymentWayID
     ClearFields mskDateIssue, txtCompanyDescription, txtShipDescription, txtDestinationDescription, txtSourceDescription, txtPaymentWayDescription, mskAmount
     DisableFields mskDateIssue, txtCompanyDescription, txtShipDescription, txtDestinationDescription, txtSourceDescription, txtPaymentWayDescription, mskAmount
     DisableFields cmdIndex(0), cmdIndex(1), cmdIndex(2), cmdIndex(3), cmdIndex(4), cmdIndex(5), cmdIndex(6), cmdIndex(7), cmdIndex(8), cmdIndex(9)
     
-    UpdateButtons Me, 5, 1, 0, 0, 1, 0, 1
+    UpdateButtons Me, 5, 1, 0, 0, IIf(CheckForLoadedForm("RevenuesIndex"), 0, 1), 0, 1
 
 End Sub
 

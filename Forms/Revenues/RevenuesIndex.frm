@@ -1173,11 +1173,11 @@ Private Function FindRecordsAndPopulateGrid()
 
 End Function
 
-Private Function UpdateCriteriaLabels(DateFrom, DateTo, Company, Ship, Destination, Source, PaymentWay)
+Private Function UpdateCriteriaLabels(dateFrom, DateTo, Company, Ship, Destination, Source, PaymentWay)
 
     Dim strCriteriaA As String
 
-    strCriteriaA = IIf(DateFrom = "", "Από [ ΟΛΑ ] ", "Από [ " & DateFrom & " ] ")
+    strCriteriaA = IIf(dateFrom = "", "Από [ ΟΛΑ ] ", "Από [ " & dateFrom & " ] ")
     strCriteriaA = strCriteriaA & IIf(DateTo = "", "Εως [ ΟΛΑ ] ", "Εως [ " & DateTo & " ] ")
     strCriteriaA = strCriteriaA & IIf(Company = "", "Εταιρία [ ΟΛΕΣ ] ", "Εταιρία [ " & Company & " ] ")
     strCriteriaA = strCriteriaA & IIf(Ship = "", "Πλοίο [ ΟΛΑ ] ", "Πλοίο [ " & Ship & " ] ")
@@ -1470,7 +1470,7 @@ Private Sub Form_Activate()
             "05NCNTrnID,12NCDDateIssue,40NLNCompany,40NLNShip,40NLNDestination,40NLNSource,40NLNPaymentWay,10NRFAmount", _
             "TrnID,Ημερομηνία,Εταιρία,Πλοίο,Προορισμός,Προέλευση,Τρόπος πληρωμής,Ποσό"
         Me.Refresh
-        mskDateFrom.SetFocus
+        'mskDateFrom.SetFocus
     End If
     
     'AddDummyLines grdRevenuesIndex, "99999", "A99/99/9999A", "AAAAAAAAAAAAAAAAAAAA", "AAAAAAAAAAAAAAAAAAAA", "AAAAAAAAAAAAAAAAAAAA", "AAAAAAAAAAAAAAAAAAAA", "AAAAAAAAAAAAAAAAAAAA", "-9.999.999,99"
@@ -1554,7 +1554,7 @@ Private Function EditRecord()
         
     Dim rstRecordset As Recordset
     
-    'Set rstRecordset = PersonsTransactions.SeekRecord(grdRevenuesIndex.CellValue(grdRevenuesIndex.CurRow, "TrnID"), txtPaymentInOrPaymentOut.text, txtCustomersOrSuppliers.text)
+    Set rstRecordset = SeekRecord(grdRevenuesIndex.CellValue(grdRevenuesIndex.CurRow, "TrnID"))
                 
     If rstRecordset.RecordCount = 0 Then
         If MyMsgBox(4, strApplicationName, strStandardMessages(9), 1) Then
@@ -1562,15 +1562,82 @@ Private Function EditRecord()
         Exit Function
     End If
     
-    'PersonsTransactions.DoPostFoundJobs rstRecordset, txtPaymentInOrPaymentOut.text, txtCustomersOrSuppliers.text
-    
-    If Not PersonsTransactions.Visible Then
-        PersonsTransactions.Show 1, Me
-    Else
+    Revenues.DoPostFoundJobs rstRecordset
+    Revenues.Tag = "True"
+    If Revenues.Visible Then
         Unload Me
+    Else
+        Revenues.Show 1, Me
     End If
+    
+End Function
+
+Public Function SeekRecord(lngID)
+
+    Dim intIndex As Byte
+    Dim strThisQuery As String
+    Dim strParameters As String
+    Dim strParFields As String
+    Dim strThisParameter As String
+    Dim strOrder As String
+    Dim strLogic As String
+    Dim arrQuery() As Variant
+    Dim strSQL As String
+    
+    Dim rstRecordset As Recordset
+    
+    strSQL = "SELECT " _
+        & "Revenues.ID AS ID, " _
+        & "Revenues.DateIssue, " _
+        & "Revenues.CompanyID, Companies.Description AS CompanyDescription, " _
+        & "Revenues.ShipID, Ships.ShipDescription AS ShipDescription, " _
+        & "Revenues.DestinationID, Destinations.DestinationDescription AS DestinationDescription, " _
+        & "Revenues.SourceID, RevenueSources.Description AS SourceDesciption, " _
+        & "Revenues.PaymentWayID, PaymentWays.Description AS PaymentWayDescription, " _
+        & "Amount " _
+        & "FROM (((((Revenues " _
+        & "INNER JOIN Companies ON Revenues.CompanyID = Companies.ID) " _
+        & "INNER JOIN Ships ON Revenues.ShipID = Ships.ShipID) " _
+        & "INNER JOIN Destinations ON Revenues.DestinationID = Destinations.DestinationID) " _
+        & "INNER JOIN RevenueSources ON Revenues.SourceID = RevenueSources.ID) " _
+        & "INNER JOIN PaymentWays ON Revenues.PaymentWayID = PaymentWays.ID) "
+        
+    'ID
+    strThisParameter = "lngID long"
+    strThisQuery = "Revenues.ID = lngID"
+    strLogic = " AND "
+    GoSub UpdateSQLString
+    arrQuery(intIndex) = lngID
+
+    Set TempQuery = CommonDB.CreateQueryDef("")
+    
+    strParameters = "PARAMETERS " & strParameters & "; "
+    strParFields = "WHERE " & strParFields
+    strSQL = strParameters & strSQL & strParFields
+    TempQuery.SQL = strSQL & strOrder
+    
+    For intIndex = 1 To UBound(arrQuery)
+        TempQuery.Parameters(intIndex - 1) = arrQuery(intIndex)
+    Next intIndex
+    
+    Set rstRecordset = TempQuery.OpenRecordset()
+    
+    Set SeekRecord = rstRecordset
+    
+    Exit Function
+
+UpdateSQLString:
+    intIndex = intIndex + 1
+    strParameters = IIf(intIndex > 1, strParameters & ", ", strParameters)
+    strParFields = IIf(intIndex > 1, strParFields & strLogic, strParFields)
+    strParameters = strParameters & strThisParameter
+    strParFields = strParFields & strThisQuery
+    ReDim Preserve arrQuery(intIndex)
+    
+    Return
 
 End Function
+
 
 Private Function ValidateFields()
 
