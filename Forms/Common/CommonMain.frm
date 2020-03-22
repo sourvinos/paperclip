@@ -227,7 +227,7 @@ Begin VB.Form CommonMain
    Begin VB.Frame menuFrame 
       BackColor       =   &H00FFFFC0&
       BorderStyle     =   0  'None
-      Height          =   8715
+      Height          =   8415
       Index           =   8
       Left            =   20025
       TabIndex        =   32
@@ -330,7 +330,7 @@ Begin VB.Form CommonMain
          Index           =   47
          Left            =   300
          TabIndex        =   49
-         Top             =   7800
+         Top             =   7425
          Width           =   3315
       End
       Begin VB.Label menuOption 
@@ -350,7 +350,7 @@ Begin VB.Form CommonMain
          Index           =   46
          Left            =   315
          TabIndex        =   48
-         Top             =   7050
+         Top             =   6675
          Width           =   3315
       End
       Begin VB.Label menuOption 
@@ -370,7 +370,7 @@ Begin VB.Form CommonMain
          Index           =   48
          Left            =   300
          TabIndex        =   47
-         Top             =   8175
+         Top             =   7800
          Width           =   3315
       End
       Begin VB.Label menuOption 
@@ -390,7 +390,7 @@ Begin VB.Form CommonMain
          Index           =   44
          Left            =   315
          TabIndex        =   46
-         Top             =   6675
+         Top             =   6300
          Width           =   3315
       End
       Begin VB.Label menuOption 
@@ -410,7 +410,7 @@ Begin VB.Form CommonMain
          Index           =   43
          Left            =   315
          TabIndex        =   45
-         Top             =   6300
+         Top             =   5925
          Width           =   3315
       End
       Begin VB.Label menuOption 
@@ -430,7 +430,7 @@ Begin VB.Form CommonMain
          Index           =   37
          Left            =   315
          TabIndex        =   44
-         Top             =   5550
+         Top             =   5175
          Width           =   3315
       End
       Begin VB.Label menuOption 
@@ -450,7 +450,7 @@ Begin VB.Form CommonMain
          Index           =   38
          Left            =   315
          TabIndex        =   43
-         Top             =   5925
+         Top             =   5550
          Width           =   3315
       End
       Begin VB.Label menuOption 
@@ -592,7 +592,7 @@ Begin VB.Form CommonMain
          Index           =   18
          Left            =   300
          TabIndex        =   36
-         Top             =   7425
+         Top             =   7050
          Width           =   3315
       End
       Begin VB.Label menuOption 

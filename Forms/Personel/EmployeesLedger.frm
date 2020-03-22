@@ -1091,7 +1091,8 @@ Private Function EditRecord()
     
     'Εγγραφές συμφωνιών
     If grdEmployeesLedger.CellValue(grdEmployeesLedger.CurRow, "Agreement") <> "" Then
-        'Set rstRecordset = Employees.SeekRecord(grdEmployeesLedger.CellValue(grdEmployeesLedger.CurRow, "ID"))
+        Set rstRecordset = Employees.SeekRecord(grdEmployeesLedger.CellValue(grdEmployeesLedger.CurRow, "ID"))
+        Employees.Show 1, Me
     End If
     
     'Εγγραφές πληρωμών
@@ -1107,9 +1108,9 @@ Private Function EditRecord()
     
 End Function
 
-Private Sub cmdButton_Click(Index As Integer)
+Private Sub cmdButton_Click(index As Integer)
 
-    Select Case Index
+    Select Case index
         Case 0
             DoJobs
         Case 1
@@ -1261,13 +1262,13 @@ ErrTrap:
     
 End Function
 
-Private Sub cmdIndex_Click(Index As Integer)
+Private Sub cmdIndex_Click(index As Integer)
 
     'Local variables
     Dim tmpTableData As typTableData
     Dim tmpRecordset As Recordset
     
-    Select Case Index
+    Select Case index
         Case 0
             'Customers - F2
             Set tmpRecordset = CheckForMatch("CommonDB", "Employees", "Lastname", "String", txtLastname.text)
@@ -1337,7 +1338,7 @@ Private Sub Form_Load()
     
 End Sub
 
-Private Sub grdEmployeesLedger_ColHeaderClick(ByVal lCol As Long, bDoDefault As Boolean, ByVal Shift As Integer, ByVal x As Long, ByVal Y As Long)
+Private Sub grdEmployeesLedger_ColHeaderClick(ByVal lCol As Long, bDoDefault As Boolean, ByVal Shift As Integer, ByVal X As Long, ByVal Y As Long)
 
     bDoDefault = False
 
@@ -1369,7 +1370,7 @@ Private Sub grdEmployeesLedger_DblClick(ByVal lRow As Long, ByVal lCol As Long, 
 
 End Sub
 
-Private Sub grdEmployeesLedger_HeaderRightClick(ByVal lCol As Long, ByVal Shift As Integer, ByVal x As Long, ByVal Y As Long)
+Private Sub grdEmployeesLedger_HeaderRightClick(ByVal lCol As Long, ByVal Shift As Integer, ByVal X As Long, ByVal Y As Long)
 
     PopupMenu mnuHdrPopUp
 

@@ -1337,7 +1337,7 @@ End Function
 
 Private Function FindAgreements(lngID)
 
-    On Error GoTo ErrTrap
+    'On Error GoTo ErrTrap
     
     'SQL
     Dim intIndex As Byte
@@ -1396,6 +1396,10 @@ Private Function FindAgreements(lngID)
     
     'Αν δεν έχω εγγραφές, βγαίνω
     If rstRecordset.RecordCount = 0 Then Exit Function
+    
+    If grdAgreements.colCount = 0 Then
+        AddColumnsToGrid grdAgreements, False, 44, GetSetting(strApplicationName, "Layout Strings", "grdAgreements"), "04NCNID,04NCDFrom,04NCDTo,30NLNRemarks,04NRFAmount,05NCNStatus,05NCNDeleted", "ID,Από,Εως,Παρατηρήσεις,Ποσό,Ε,Δ"
+    End If
     
     'Βάζω γραμμές στο πλέγμα
     grdAgreements.AddRow , , , , , , , rstRecordset.RecordCount
@@ -1693,7 +1697,7 @@ Private Function ValidateFields()
 
 End Function
 
-Private Sub btnPanel_Click(Index As Integer)
+Private Sub btnPanel_Click(index As Integer)
 
     Dim intLoop As Integer
     
@@ -1703,11 +1707,11 @@ Private Sub btnPanel_Click(Index As Integer)
         shpBridge(intLoop).Visible = False
     Next intLoop
     
-    btnPanel(Index).Enabled = False
-    frmFrame(Index).Visible = True
-    shpBridge(Index).Visible = True
+    btnPanel(index).Enabled = False
+    frmFrame(index).Visible = True
+    shpBridge(index).Visible = True
     
-    Select Case Index
+    Select Case index
         'Στοιχεία
         Case 0
             If cmdButton(1).Enabled Then
@@ -1730,9 +1734,9 @@ Private Sub btnPanel_Click(Index As Integer)
 
 End Sub
 
-Private Sub cmdButton_Click(Index As Integer)
+Private Sub cmdButton_Click(index As Integer)
                                                                                                                                 
-    Select Case Index
+    Select Case index
         Case 0
             NewRecord
         Case 1
@@ -1765,12 +1769,12 @@ Private Function ToggleGridLineToDelete()
     
 End Function
 
-Private Sub cmdIndex_Click(Index As Integer)
+Private Sub cmdIndex_Click(index As Integer)
 
     Dim tmpTableData As typTableData
     Dim tmpRecordset As Recordset
     
-    Select Case Index
+    Select Case index
         Case 0
             'Εταιρία
             Set tmpRecordset = CheckForMatch("CommonDB", "Companies", "Description", "String", txtCompanyDescription.text)
@@ -1916,7 +1920,7 @@ Private Sub Form_Load()
 
 End Sub
 
-Private Sub grdAgreements_HeaderRightClick(ByVal lCol As Long, ByVal Shift As Integer, ByVal x As Long, ByVal Y As Long)
+Private Sub grdAgreements_HeaderRightClick(ByVal lCol As Long, ByVal Shift As Integer, ByVal X As Long, ByVal Y As Long)
 
     PopupMenu mnuHdrPopUp
     

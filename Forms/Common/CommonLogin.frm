@@ -395,6 +395,21 @@ ErrTrap:
  
 End Function
 
+Private Function PopulateDropdown(recordset As ADODB.recordset)
+    
+    Dim intLoop As Integer
+    Dim lngRow As Long
+    Dim lngCol As Long
+    
+    If recordset.EOF Then Exit Function
+    
+    Do Until recordset.EOF
+        cboUsers.AddItem recordset.Fields(1)
+        recordset.MoveNext
+    Loop
+    
+End Function
+
 Private Function Start()
 
     lblProgress.Caption = strStandardMessages(20)
@@ -410,29 +425,29 @@ Private Function Start()
     strCompanyName = cboCompanies.text & ".mdb"
     strCurrentUser = cboUsers.text
     
-    If Not IsCorrectPassword(cboUsers.text, txtPassword.text) Then
-        If MyMsgBox(4, strApplicationName, strStandardMessages(11), 1) Then
-        End If
-        ClearFields lblProgress
-        Exit Function
-    End If
+    'If Not IsCorrectPassword(cboUsers.text, txtPassword.text) Then
+    '    If MyMsgBox(4, strApplicationName, strStandardMessages(11), 1) Then
+    '    End If
+    '    ClearFields lblProgress
+    '    Exit Function
+    'End If
     
-    If OpenDataBase(strCompanyName) Then
-        If LoadParameters Then
+    'If OpenDataBase(strCompanyName) Then
+        'If LoadParameters Then
             With CommonMain
-                .Caption = "Server: " & strPathName & " - Εταιρία: " & Left(strCompanyName, Len(strCompanyName) - 4) & " - Χρήστης: " & strCurrentUser
-                .lblCompany.Caption = Left(strCompanyName, Len(strCompanyName) - 4)
+                '.Caption = "Server: " & strPathName & " - Εταιρία: " & Left(strCompanyName, Len(strCompanyName) - 4) & " - Χρήστης: " & strCurrentUser
+                '.lblCompany.Caption = Left(strCompanyName, Len(strCompanyName) - 4)
                 If Not .Visible Then .Show
-                UpdateRegistryWithUserData cboCompanies.ListIndex, cboUsers.ListIndex, txtPassword.text
+                'UpdateRegistryWithUserData cboCompanies.ListIndex, cboUsers.ListIndex, txtPassword.text
                 Unload Me
                 CommonMain.Show
                 DisplayHelloMessage False
             End With
-        End If
-    Else
-        If MyMsgBox(4, strApplicationName, strStandardMessages(11), 1) Then
-        End If
-    End If
+        'End If
+    'Else
+    '    If MyMsgBox(4, strApplicationName, strStandardMessages(11), 1) Then
+    '    End If
+    'End If
 
 End Function
 
@@ -441,28 +456,28 @@ Private Function ValidateFields()
     ValidateFields = False
     
     'Χρήστες
-    If cboUsers.text = "" Then
-        If MyMsgBox(4, strApplicationName, strStandardMessages(1), 1) Then
-        End If
-        cboUsers.SetFocus
-        Exit Function
-    End If
+    'If cboUsers.text = "" Then
+    '    If MyMsgBox(4, strApplicationName, strStandardMessages(1), 1) Then
+    '    End If
+    '    cboUsers.SetFocus
+    '    Exit Function
+    'End If
     
     'Εταιρία
-    If cboCompanies.text = "" Then
-        If MyMsgBox(4, strApplicationName, strStandardMessages(1), 1) Then
-        End If
-        cboCompanies.SetFocus
-        Exit Function
-    End If
+    'If cboCompanies.text = "" Then
+    '    If MyMsgBox(4, strApplicationName, strStandardMessages(1), 1) Then
+    '    End If
+    '    cboCompanies.SetFocus
+    '    Exit Function
+    'End If
     
     'Κωδικός
-    If txtPassword.text = "" Then
-        If MyMsgBox(4, strApplicationName, strStandardMessages(1), 1) Then
-        End If
-        txtPassword.SetFocus
-        Exit Function
-    End If
+    'If txtPassword.text = "" Then
+    '    If MyMsgBox(4, strApplicationName, strStandardMessages(1), 1) Then
+    '    End If
+    '    txtPassword.SetFocus
+    '    Exit Function
+    'End If
     
     ValidateFields = True
 
@@ -480,11 +495,11 @@ Private Sub cboUsers_KeyPress(KeyAscii As Integer)
 
 End Sub
 
-Private Sub cmdButton_Click(Index As Integer)
+Private Sub cmdButton_Click(index As Integer)
 
     Dim obj As Object
     
-    Select Case Index
+    Select Case index
         Case 0
             If ValidateFields Then Start
         Case 1
@@ -511,7 +526,7 @@ Private Function CloseApp()
 
 End Function
 
-Private Sub cmdButton_KeyDown(Index As Integer, KeyCode As Integer, Shift As Integer)
+Private Sub cmdButton_KeyDown(index As Integer, KeyCode As Integer, Shift As Integer)
 
     CheckForArrows (KeyCode)
 
@@ -537,42 +552,40 @@ Private Sub Form_Load()
 
     Me.Tag = "True"
     Me.Show
+    
     lblCopyright.Caption = "Created by John Sourvinos - " & Year(Date)
+    
     ClearFields lblProgress, cboUsers, cboCompanies, txtPassword
+    
     strApplicationName = GetSetting(Mid(App.Path, 4, Len(App.Path)), "Settings", "Application Name")
     strApplicationEXEName = GetSetting(strApplicationName, "Settings", "Application EXE Name")
+    
     LoadMessages
-    If Not LoadCompanies Then Exit Sub
-    If Not LoadUsers Then Exit Sub
-    LoadUserDataFromRegistry
-
+    
+    If OpenDB Then LoadUsers
+    
+    'If Not LoadCompanies Then Exit Sub
+    'If Not LoadUsers Then Exit Sub
+    
+    'LoadUserDataFromRegistry
+    
 End Sub
     
 Private Function LoadUsers()
     
     On Error GoTo ErrTrap
     
-    Dim rsUsers As Recordset
+    Dim users As New ADODB.recordset
     
-    strPathName = GetSetting(appName:=strApplicationName, Section:="Path Names", Key:="Database Path Name")
-    Set UsersDB = DBEngine.OpenDataBase(strPathName + "Users.mdb", False, False)
+    Set users = getDataFromDB("SELECT * FROM Users")
     
-    Set rsUsers = UsersDB.OpenRecordset("Users")
-    With rsUsers
-        While Not .EOF
-            cboUsers.AddItem !username
-            .MoveNext
-        Wend
-    End With
-    
-    LoadUsers = True
-    UsersDB.Close
+    PopulateDropdown users
     
     Exit Function
     
 ErrTrap:
-    LoadUsers = False
     DisplayErrorMessage True, Err.Description
 
 End Function
+
 

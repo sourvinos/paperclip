@@ -18,7 +18,6 @@ Global PrintersDB As Database
 Global UsersDB As Database
 Global dBaseTables As TableDefs
 Global TempQuery As QueryDef
-Global TempSummaryPerPortQuery As QueryDef
 
 'Εκτυπωτές
 Global strPrinterName As String
@@ -65,6 +64,15 @@ Declare Function SendMessage Lib "user32" Alias "SendMessageA" (ByVal hwnd As Lo
 Declare Function GetParent Lib "user32" (ByVal hwnd As Long) As Long
 Declare Function GetWindowThreadProcessId Lib "user32" (ByVal hwnd As Long, lpdwProcessId As Long) As Long
 Declare Function EnumWindows Lib "user32" (ByVal lpEnumFunc As Long, ByVal lParam As Long) As Long
+
+'MySql
+Global Connection As New ADODB.Connection
+Global strDBServer As String
+Global strDBName As String
+Global strDBUserName As String
+Global strDBPassword As String
+Global strDBDriver As String
+
 Public Function CheckForSpecialCharacter(strCharacter)
 
     Select Case strCharacter
@@ -185,7 +193,7 @@ Function CheckForMatch(DBToUse, TableToUse, FieldNames, FieldTypes, ParamArray F
     Dim strSingleQuotes As String
     Dim strFieldValue As String
     
-    Dim rstTempRecordset As Recordset
+    Dim rstTempRecordset As recordset
     
     If DBToUse = "CommonDB" Then Set TempQuery = CommonDB.CreateQueryDef("") Else Set TempQuery = PrintersDB.CreateQueryDef("")
     
@@ -736,6 +744,81 @@ Function HighlightRow(grdGrid As iGrid, lngSelectedRow, lngColumn, strID, blnRow
 
 End Function
 
+Public Function OpenDB()
+
+    On Error GoTo ErrTrap
+    
+    strDBDriver = "{MySQL ODBC 3.51 Driver}"
+    strDBServer = "krotsis"
+    strDBName = "paperclip"
+    strDBUserName = "sourvinos"
+    strDBPassword = "7d7eb337a8174d0e96e459390f39aa97"
+   
+    Connection.ConnectionString = "Driver=" & strDBDriver & ";Server=" & strDBServer & ";charset=greek; Database=" & strDBName & ";User=" & strDBUserName & ";Password=" & strDBPassword & ";Option=2;"
+    Connection.Open
+    
+    OpenDB = True
+    
+    Exit Function
+    
+ErrTrap:
+    DisplayErrorMessage True, Err.Description
+    
+End Function
+
+Public Function PopulateGrid(grid As iGrid, recordset As ADODB.recordset)
+        
+    Dim intLoop As Integer
+    Dim lngRow As Long
+    Dim lngCol As Long
+    
+    With grid
+        .Clear
+        .Enabled = False
+        .Redraw = False
+    End With
+    
+    If recordset.EOF Then Exit Function
+    
+    Do Until recordset.EOF
+        grid.AddRow
+        intLoop = 0
+        lngRow = grid.RowCount
+        For lngCol = 1 To recordset.Fields.Count
+            grid.CellValue(lngRow, lngCol) = recordset.Fields(intLoop)
+            intLoop = intLoop + 1
+        Next lngCol
+        recordset.MoveNext
+    Loop
+    
+    With grid
+        .Enabled = True
+        .Redraw = True
+        .SetFocus
+        .SetCurCell 1, 1
+    End With
+
+End Function
+
+
+Public Function getDataFromDB(sqlCommand) As ADODB.recordset
+
+    Set getDataFromDB = New ADODB.recordset
+    
+    With getDataFromDB
+        .ActiveConnection = Connection
+        .CursorLocation = adUseClient
+        .CursorType = adOpenForwardOnly
+        .LockType = adLockReadOnly
+        .Source = sqlCommand
+        .Open
+    End With
+    
+    Set getDataFromDB.ActiveConnection = Nothing
+    
+End Function
+
+
 Function SanitizeString(text)
 
     Dim strNewString As String
@@ -1103,7 +1186,7 @@ Function SimpleSeek(table, index, ParamArray Indexes() As Variant)
     Dim intUpper As Integer
     Dim intArrayindex As Integer
     Dim strNewField As String
-    Dim rsTable As Recordset
+    Dim rsTable As recordset
     
     SimpleSeek = False
     
@@ -1277,7 +1360,7 @@ Function MainDeleteRecord(SelectedDB, table, FormTitle, IndexField, CodeToSeek, 
 
     On Error GoTo ErrTrap
     
-    Dim rsTable As Recordset
+    Dim rsTable As recordset
     
     Select Case SelectedDB
         Case "CommonDB"
@@ -1327,7 +1410,7 @@ Function MainSeekRecord(SelectedDB, table, IndexField, CodeToSeek, DisplayNotFou
     On Error GoTo ErrTrap
     
     Dim bytLoop As Byte
-    Dim rsTable As Recordset
+    Dim rsTable As recordset
     
     Select Case SelectedDB
         Case "CommonDB"
@@ -1444,7 +1527,7 @@ Function FillGridFromDB(SelectedDB, grdGrid, strTable, Fields, joins, criteriaSt
     Dim lngCol As Long
     Dim strSQL As String
 
-    Dim rstTempRecordset As Recordset
+    Dim rstTempRecordset As recordset
     
     strPrinterName = ""
     FillGridFromDB = False
@@ -1502,7 +1585,7 @@ Function MainSaveRecord(SelectedDB, table, Status, FormTitle, IndexField, CodeTo
     On Error GoTo ErrTrap
     
     Dim lngFieldNo As Long
-    Dim rsTable As Recordset
+    Dim rsTable As recordset
     
     Select Case SelectedDB
         Case "CommonDB"
@@ -1843,17 +1926,20 @@ End Function
 
 Function OpenDataBase(tmpCompany)
 
-    On Error GoTo TrapError
+    'On Error GoTo TrapError
     
-    OpenDataBase = False
+    'OpenDataBase = False
     
-    Set wrkCurrent = DBEngine.Workspaces(0)
+    'Set wrkCurrent = DBEngine.Workspaces(0)
     
-    strFullPathName = strPathName & tmpCompany
-    Set CommonDB = DBEngine.OpenDataBase(strFullPathName, False, False)
-    OpenDataBase = True
-    Set dBaseTables = CommonDB.TableDefs
+    'strFullPathName = strPathName & tmpCompany
+    'Set CommonDB = DBEngine.OpenDataBase(strFullPathName, False, False)
+    'OpenDataBase = True
+    'Set dBaseTables = CommonDB.TableDefs
     
+    Connection.ConnectionString = "Driver=" & strDBDriver & ";Server=" & strDBServer & ";charset=greek; Database=" & strDBName & ";User=" & strDBUserName & ";Password=" & strDBPassword & ";Option=2;"
+    
+
     Exit Function
     
 TrapError:
@@ -1934,7 +2020,7 @@ End Function
 
 Function IsCorrectPassword(strUsername, strPassword As String)
 
-    Dim rstUsers As Recordset
+    Dim rstUsers As recordset
     Dim strUserInput As String
     
     strPathName = GetSetting(appName:=strApplicationName, Section:="Path Names", Key:="Database Path Name")

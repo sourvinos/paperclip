@@ -186,7 +186,7 @@ Begin VB.Form TablesUsers
          Top             =   75
          Width           =   3540
       End
-      Begin VB.TextBox txtUserID 
+      Begin VB.TextBox txtID 
          Appearance      =   0  'Flat
          BackColor       =   &H00C0C0FF&
          BorderStyle     =   0  'None
@@ -509,12 +509,14 @@ Option Explicit
 Dim blnStatus As Boolean
 Dim lngSelectedRow As Long
 
+Dim users As New ADODB.recordset
+
 Private Function AbortProcedure(blnStatus)
     
     If Not blnStatus Then
         If MyMsgBox(3, strApplicationName, strStandardMessages(3), 2) Then
             blnStatus = False
-            ClearFields txtUserID, txtUserName, txtPassword, txtRepeatPassword
+            ClearFields txtID, txtUserName, txtPassword, txtRepeatPassword
             DisableFields txtUserName, txtPassword, txtRepeatPassword
             grdUsers.SetFocus
             UpdateButtons Me, 4, 1, 0, 0, 0, 1
@@ -530,21 +532,12 @@ End Function
 
 Private Function DeleteRecord()
     
-    If MainDeleteRecord("UsersDB", "Users", strApplicationName, "UserID", txtUserID.text, "True") Then
-        PopulateGrid
+    If MainDeleteRecord("UsersDB", "Users", strApplicationName, "UserID", txtID.text, "True") Then
+        'PopulateGrid
         HighlightRow grdUsers, lngSelectedRow, 1, "", True
-        ClearFields txtUserID, txtUserName, txtPassword, txtRepeatPassword
+        ClearFields txtID, txtUserName, txtPassword, txtRepeatPassword
         DisableFields txtUserName, txtPassword, txtRepeatPassword
         UpdateButtons Me, 4, 1, 0, 0, 0, 1
-    End If
-
-End Function
-
-Private Function PopulateGrid()
-
-    If FillGridFromDB("UsersDB", grdUsers, "Users", "", "", "", 2, 0, 1) Then
-        grdUsers.SetFocus
-        grdUsers.SetCurCell 1, 1
     End If
 
 End Function
@@ -552,28 +545,110 @@ End Function
 Private Function NewRecord()
     
     blnStatus = True
-    ClearFields txtUserID, txtUserName, txtPassword, txtRepeatPassword
+    ClearFields txtID, txtUserName, txtPassword, txtRepeatPassword
     EnableFields txtUserName, txtPassword, txtRepeatPassword
     UpdateButtons Me, 4, 0, 1, 0, 1, 0
     txtUserName.SetFocus
 
 End Function
 
+
+Private Function ValidateFields()
+
+    ValidateFields = False
+    
+    'Χρήστης
+    If Len(Trim(txtUserName.text)) = 0 Then
+        If MyMsgBox(4, strApplicationName, strStandardMessages(1), 1) Then
+        End If
+        txtUserName.SetFocus
+        Exit Function
+    End If
+    
+    'Νέος κωδικός
+    If Len(Trim(txtPassword.text)) = 0 Then
+        If MyMsgBox(4, strApplicationName, strStandardMessages(1), 1) Then
+        End If
+        txtPassword.SetFocus
+        Exit Function
+    End If
+    
+    'Επιβεβαίωση νέου κωδικού
+    If Len(Trim(txtRepeatPassword.text)) = 0 Then
+        If MyMsgBox(4, strApplicationName, strStandardMessages(1), 1) Then
+        End If
+        txtRepeatPassword.SetFocus
+        Exit Function
+    End If
+    
+    'Νέος κωδικός = επιβεβαίωση νέου κωδικού
+    If txtPassword.text <> txtRepeatPassword.text Then
+        If MyMsgBox(4, strApplicationName, strStandardMessages(14), 1) Then
+        End If
+        txtPassword.SetFocus
+        Exit Function
+    End If
+    
+    ValidateFields = True
+    
+End Function
+
 Private Function SaveRecord()
     
     If Not ValidateFields Then Exit Function
 
-    If MainSaveRecord("UsersDB", "Users", blnStatus, strApplicationName, "UserID", txtUserID.text, txtUserName.text, HashPassword(txtUserName.text, txtPassword.text)) <> 0 Then
-        PopulateGrid
+    If SaveRecordToDB("Users", txtID.text, txtUserName.text, txtPassword.text) Then
+        Set users = getDataFromDB("SELECT Id, Description FROM Users")
+        PopulateGrid grdUsers, users
         HighlightRow grdUsers, lngSelectedRow, 2, txtUserName.text, True
-        lngSelectedRow = 0
-        ClearFields txtUserID, txtUserName, txtPassword, txtRepeatPassword
+        ClearFields txtID, txtUserName, txtPassword, txtRepeatPassword
         DisableFields txtUserName, txtPassword, txtRepeatPassword
         UpdateButtons Me, 4, 1, 0, 0, 0, 1
-    Else
-        DisplayErrorMessage True, strStandardMessages(5)
     End If
+    
+End Function
 
+Private Function SaveRecordToDB(table As String, ParamArray Fields() As Variant)
+
+    On Error GoTo ErrTrap
+    
+    Dim X As Integer
+    Dim recordset As ADODB.recordset
+    
+    Set recordset = New ADODB.recordset
+    
+    With recordset
+        .Source = table
+        .ActiveConnection = Connection
+        .CursorType = adOpenStatic
+        .LockType = adLockOptimistic
+        .Open Options:=adCmdTable
+    End With
+    
+    GoSub Add
+    
+    Set recordset = Nothing
+    
+    SaveRecordToDB = True
+    
+    Exit Function
+    
+Add:
+    Connection.Execute "INSERT INTO " + table + "VALUES ()"
+    With recordset
+        .AddNew
+        For X = 0 To UBound(Fields)
+            .Fields(X + 1).Value = Fields(X)
+        Next X
+        .Update
+        .Close
+    End With
+    
+    Return
+    
+ErrTrap:
+    DisplayErrorMessage True, Err.Description
+    
 End Function
 
 Private Function SeekRecord()
@@ -582,12 +657,12 @@ Private Function SeekRecord()
     
     If grdUsers.RowCount = 0 Then Exit Function
     
-    ClearFields txtUserID, txtUserName, txtPassword, txtRepeatPassword
+    ClearFields txtID, txtUserName, txtPassword, txtRepeatPassword
     DisableFields txtUserName, txtPassword, txtRepeatPassword
     
     blnEnableDelete = IIf(grdUsers.RowCount > 1, 1, 0)
     
-    If MainSeekRecord("UsersDB", "Users", "UserID", grdUsers.CellValue(grdUsers.CurRow, 1), True, txtUserID, txtUserName) Then
+    If MainSeekRecord("UsersDB", "Users", "UserID", grdUsers.CellValue(grdUsers.CurRow, 1), True, txtID, txtUserName) Then
         blnStatus = False
         lngSelectedRow = grdUsers.CurRow
         EnableFields txtUserName, txtPassword, txtRepeatPassword
@@ -620,7 +695,8 @@ Private Sub Form_Activate()
         Me.Tag = "False"
         AddColumnsToGrid grdUsers, False, 25, GetSetting(strApplicationName, "Layout Strings", "grdUsers"), "04NCIID,40NLNName", "ID,Ονομα"
         Me.Refresh
-        PopulateGrid
+        Set users = getDataFromDB("SELECT Id, Description FROM Users")
+        PopulateGrid grdUsers, users
     End If
 
     'AddDummyLines grdUsers, "99999", "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAΑΑΑΑΑΑΑΑΑΑ"
@@ -663,7 +739,7 @@ Private Sub Form_Load()
 
     UpdateColors Me, False
     SetUpGrid lstIconList, grdUsers
-    ClearFields txtUserID, txtUserName, txtPassword, txtRepeatPassword
+    ClearFields txtID, txtUserName, txtPassword, txtRepeatPassword
     DisableFields txtUserName, txtPassword, txtRepeatPassword
     UpdateButtons Me, 4, 1, 0, 0, 0, 1
 
@@ -692,44 +768,4 @@ Private Sub mnuΑποθήκευσηΠλάτουςΣτηλών_Click()
     SaveSetting strApplicationName, "Layout Strings", "grdUsers", grdUsers.LayoutCol
 
 End Sub
-
-Private Function ValidateFields()
-
-    ValidateFields = False
-    
-    'Χρήστης
-    If Len(Trim(txtUserName.text)) = 0 Then
-        If MyMsgBox(4, strApplicationName, strStandardMessages(1), 1) Then
-        End If
-        txtUserName.SetFocus
-        Exit Function
-    End If
-    
-    'Νέος κωδικός
-    If Len(Trim(txtPassword.text)) = 0 Then
-        If MyMsgBox(4, strApplicationName, strStandardMessages(1), 1) Then
-        End If
-        txtPassword.SetFocus
-        Exit Function
-    End If
-    
-    'Επιβεβαίωση νέου κωδικού
-    If Len(Trim(txtRepeatPassword.text)) = 0 Then
-        If MyMsgBox(4, strApplicationName, strStandardMessages(1), 1) Then
-        End If
-        txtRepeatPassword.SetFocus
-        Exit Function
-    End If
-    
-    'Νέος κωδικός = επιβεβαίωση νέου κωδικού
-    If txtPassword.text <> txtRepeatPassword.text Then
-        If MyMsgBox(4, strApplicationName, strStandardMessages(14), 1) Then
-        End If
-        txtPassword.SetFocus
-        Exit Function
-    End If
-    
-    ValidateFields = True
-    
-End Function
 

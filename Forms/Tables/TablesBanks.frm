@@ -184,11 +184,11 @@ Begin VB.Form TablesBanks
          Left            =   75
          TabIndex        =   6
          TabStop         =   0   'False
-         Text            =   "Banks.BankID"
+         Text            =   "Banks.ID"
          Top             =   75
          Width           =   3540
       End
-      Begin VB.TextBox txtBankID 
+      Begin VB.TextBox txtID 
          Appearance      =   0  'Flat
          BackColor       =   &H00C0C0FF&
          BorderStyle     =   0  'None
@@ -243,7 +243,7 @@ Begin VB.Form TablesBanks
       EndProperty
       ForeColor       =   -2147483631
    End
-   Begin UserControls.newText txtBankDescription 
+   Begin UserControls.newText txtDescription 
       Height          =   465
       Left            =   2400
       TabIndex        =   2
@@ -265,7 +265,7 @@ Begin VB.Form TablesBanks
          Strikethrough   =   0   'False
       EndProperty
    End
-   Begin UserControls.newText txtBankAccountsCode 
+   Begin UserControls.newText txtAccountsCode 
       Height          =   465
       Left            =   2400
       TabIndex        =   7
@@ -468,47 +468,16 @@ Option Explicit
 Dim blnStatus As Boolean
 Dim lngSelectedRow As Long
 
-Private Function PopulateGrid()
-        
-    If FillGridFromDB("CommonDB", grdBanks, "Banks", "", "", "", 2, 0, 1) Then
-        grdBanks.SetFocus
-        grdBanks.SetCurCell 1, 1
-    End If
-
-End Function
-
-Private Function ValidateFields()
-
-    ValidateFields = False
-    
-    'œÌÔÏ·Ûﬂ·
-    If Len(txtBankDescription.text) = 0 Then
-        If MyMsgBox(4, strApplicationName, strStandardMessages(1), 1) Then
-        End If
-        txtBankDescription.SetFocus
-        Exit Function
-    End If
-    
-    ' ˘‰ √ÂÌ. ÀÔ„ÈÛÙÈÍﬁÚ
-    If Len(txtBankAccountsCode.text) > 0 And Len(txtBankAccountsCode.text) <> intAccountsCodeLength Then
-        If MyMsgBox(4, strApplicationName, strStandardMessages(2), 1) Then
-        End If
-        txtBankAccountsCode.SetFocus
-        Exit Function
-    End If
-    
-    
-    ValidateFields = True
-
-End Function
+Dim banks As New ADODB.recordset
+Dim bank As New ADODB.recordset
 
 Private Function AbortProcedure(blnStatus)
     
     If Not blnStatus Then
         If MyMsgBox(3, strApplicationName, strStandardMessages(3), 2) Then
             blnStatus = False
-            ClearFields txtBankID, txtBankDescription, txtBankAccountsCode
-            DisableFields txtBankDescription, txtBankAccountsCode
+            ClearFields txtID, txtDescription, txtAccountsCode
+            DisableFields txtDescription, txtAccountsCode
             grdBanks.SetFocus
             UpdateButtons Me, 4, 1, 0, 0, 0, 1
         End If
@@ -523,23 +492,78 @@ End Function
 
 Private Function DeleteRecord()
     
-    If MainDeleteRecord("CommonDB", "Banks", strApplicationName, "BankID", txtBankID.text, "True") Then
-        PopulateGrid
-        HighlightRow grdBanks, lngSelectedRow, 2, "", True
-        ClearFields txtBankID, txtBankDescription, txtBankAccountsCode
-        DisableFields txtBankDescription, txtBankAccountsCode
-        UpdateButtons Me, 4, 1, 0, 0, 0, 1
-    End If
+    'If MainDeleteRecord("CommonDB", "Banks", strApplicationName, "BankID", txtID.text, "True") Then
+    '    PopulateGrid grdBanks, banks
+    '    HighlightRow grdBanks, lngSelectedRow, 2, "", True
+    '    ClearFields txtID, txtDescription, txtAccountsCode
+    '    DisableFields txtDescription, txtAccountsCode
+    '    UpdateButtons Me, 4, 1, 0, 0, 0, 1
+    'End If
 
 End Function
 
 Private Function NewRecord()
     
     blnStatus = True
-    ClearFields txtBankID, txtBankDescription, txtBankAccountsCode
-    EnableFields txtBankDescription, txtBankAccountsCode
+    ClearFields txtID, txtDescription, txtAccountsCode
+    EnableFields txtDescription, txtAccountsCode
     UpdateButtons Me, 4, 0, 1, 0, 1, 0
-    txtBankDescription.SetFocus
+    txtDescription.SetFocus
+
+End Function
+
+Private Function PopulateFields(record As ADODB.recordset, ParamArray fields() As Variant)
+
+    Dim intLoop As Integer
+    
+    For intLoop = 0 To UBound(fields)
+        If TypeOf fields(intLoop) Is TextBox Or TypeOf fields(intLoop) Is newText Then
+            fields(intLoop).text = IIf(Not IsNull(record.fields(intLoop)), record.fields(intLoop), "")
+        End If
+        If TypeOf fields(intLoop) Is newFloat Then
+            fields(intLoop).text = format(record.fields(intLoop), "#,##0.00")
+        End If
+        If TypeOf fields(intLoop) Is newInteger Then
+            fields(intLoop).text = format(record.fields(intLoop), "#,##0")
+        End If
+        If TypeOf fields(intLoop) Is Label Then
+            fields(intLoop).Caption = record.fields(intLoop)
+        End If
+        If TypeOf fields(intLoop) Is CheckBox Then
+            fields(intLoop).Value = IIf(record.fields(intLoop), 1, 0)
+        End If
+        If TypeOf fields(intLoop) Is OptionButton Then
+            fields(intLoop).Value = IIf(record.fields(intLoop), 1, 0)
+        End If
+        If TypeOf fields(intLoop) Is newDate Then
+            fields(intLoop).text = format(record.fields(intLoop), "dd/mm/yyyy")
+        End If
+    Next intLoop
+
+
+End Function
+
+Private Function ValidateFields()
+
+    ValidateFields = False
+    
+    'œÌÔÏ·Ûﬂ·
+    If Len(txtDescription.text) = 0 Then
+        If MyMsgBox(4, strApplicationName, strStandardMessages(1), 1) Then
+        End If
+        txtDescription.SetFocus
+        Exit Function
+    End If
+    
+    ' ˘‰ √ÂÌ. ÀÔ„ÈÛÙÈÍﬁÚ
+    'If Len(txtAccountsCode.text) > 0 And Len(txtAccountsCode.text) <> intAccountsCodeLength Then
+    '    If MyMsgBox(4, strApplicationName, strStandardMessages(2), 1) Then
+    '    End If
+    '    txtAccountsCode.SetFocus
+    '    Exit Function
+    'End If
+    
+    ValidateFields = True
 
 End Function
 
@@ -547,39 +571,113 @@ Private Function SaveRecord()
     
     If Not ValidateFields Then Exit Function
     
-    If MainSaveRecord("CommonDB", "Banks", blnStatus, strApplicationName, "BankID", txtBankID.text, txtBankDescription.text, txtBankAccountsCode.text, 1, strCurrentUser) <> 0 Then
-        PopulateGrid
-        HighlightRow grdBanks, lngSelectedRow, 2, txtBankDescription.text, True
+    If SaveRecordToDB("Banks", _
+            "Id", "Description", "AccountsCode", "ShowInList", "Username", _
+            txtID.text, txtDescription.text, txtAccountsCode.text, 1, "Admin") Then
+        Set banks = getDataFromDB("SELECT Id, Description FROM Banks")
+        PopulateGrid grdBanks, banks
+        HighlightRow grdBanks, lngSelectedRow, 2, txtDescription.text, True
         lngSelectedRow = 0
-        ClearFields txtBankID, txtBankDescription, txtBankAccountsCode
-        DisableFields txtBankDescription, txtBankAccountsCode
+        ClearFields txtID, txtDescription, txtAccountsCode
+        DisableFields txtDescription, txtAccountsCode
         UpdateButtons Me, 4, 1, 0, 0, 0, 1
-    Else
-        DisplayErrorMessage True, strStandardMessages(5)
     End If
     
 End Function
 
-Private Function SeekRecord()
+Private Function SaveRecordToDB(table As String, ParamArray fields() As Variant)
 
+    On Error GoTo ErrTrap
+    
+    Dim intLoop As Integer
+    Dim strSQL As String
+    Dim strFields As String
+    Dim fieldCount As Integer
+    Dim recordset As ADODB.recordset
+    
+    Set recordset = New ADODB.recordset
+    
+    With recordset
+        .Source = table
+        .ActiveConnection = Connection
+        .CursorType = adOpenStatic
+        .LockType = adLockOptimistic
+        .Open Options:=adCmdTable
+    End With
+    
+    fieldCount = UBound(fields) + 1
+        
+    If fields(fieldCount / 2) = "" Then GoSub Add Else GoSub Update
+    
+    Set recordset = Nothing
+    
+    SaveRecordToDB = True
+    
+    Exit Function
+    
+Add:
+
+    strSQL = "INSERT INTO " + table + " ("
+    
+    For intLoop = 2 To fieldCount / 2
+        strFields = strFields + fields(intLoop - 1) + " = '" + Trim(fields(fieldCount / 2 + intLoop - 1)) + "', "
+        Debug.Print strFields
+    Next intLoop
+    
+    strFields = Left(strFields, Len(strFields) - 2)
+    
+    strSQL = strSQL + strFields + ")"
+    
+    Connection.Execute strSQL
+    
+    Return
+    
+Update:
+    
+    strSQL = "UPDATE " + table + " SET "
+    
+    For intLoop = 1 To fieldCount / 2
+        strFields = strFields + fields(intLoop - 1) + " = '" + Trim(fields(fieldCount / 2 + intLoop - 1)) + "', "
+        Debug.Print strFields
+    Next intLoop
+    
+    strFields = Left(strFields, Len(strFields) - 2)
+    
+    strSQL = strSQL + strFields + " WHERE Id = " + fields(fieldCount / 2)
+    
+    Connection.Execute strSQL
+    
+    Return
+    
+ErrTrap:
+    DisplayErrorMessage True, Err.Description
+    
+End Function
+
+Private Function SeekRecord(id As Integer)
+
+    Dim strSQL As String
     Dim blnEnableDelete As Boolean
     
-    If grdBanks.RowCount = 0 Then Exit Function
-    
-    ClearFields txtBankID, txtBankDescription, txtBankAccountsCode
-    DisableFields txtBankDescription, txtBankAccountsCode
+    ClearFields txtID, txtDescription, txtAccountsCode
+    DisableFields txtDescription, txtAccountsCode
     
     blnEnableDelete = SimpleSeek("PaymentIn", "BankID", grdBanks.CellValue(grdBanks.CurRow, 1))
     If blnEnableDelete Then blnEnableDelete = blnEnableDelete = SimpleSeek("PaymentOut", "BankID", grdBanks.CellValue(grdBanks.CurRow, 1))
     
-    If MainSeekRecord("CommonDB", "Banks", "BankID", grdBanks.CellValue(grdBanks.CurRow, 1), True, txtBankID, txtBankDescription, txtBankAccountsCode) Then
+    strSQL = "SELECT Id, Description, AccountsCode FROM Banks WHERE Id = " & id
+    
+    Set bank = getDataFromDB(strSQL)
+    
+    If bank.RecordCount = 1 Then
+        PopulateFields bank, txtID, txtDescription, txtAccountsCode
         lngSelectedRow = grdBanks.CurRow
         blnStatus = False
-        EnableFields txtBankDescription, txtBankAccountsCode
+        EnableFields txtDescription, txtAccountsCode
         UpdateButtons Me, 4, 0, 1, IIf(blnEnableDelete, 1, 0), 1, 0
-        txtBankDescription.SetFocus
+        txtDescription.SetFocus
     End If
-    
+
 End Function
 
 Private Sub cmdButton_Click(index As Integer)
@@ -605,9 +703,10 @@ Private Sub Form_Activate()
         Me.Tag = "False"
         AddColumnsToGrid grdBanks, False, 25, GetSetting(strApplicationName, "Layout Strings", "grdBanks"), "04NCIID,40NLNDescription", "ID,œÌÔÏ·Ûﬂ·"
         Me.Refresh
-        PopulateGrid
+        Set banks = getDataFromDB("SELECT Id, Description FROM Banks")
+        PopulateGrid grdBanks, banks
     End If
-
+    
     'AddDummyLines grdBanks, "99999", "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA¡¡¡¡¡¡¡¡¡¡"
 
 End Sub
@@ -648,15 +747,15 @@ Private Sub Form_Load()
     
     UpdateColors Me, False
     SetUpGrid lstIconList, grdBanks
-    ClearFields txtBankID, txtBankDescription, txtBankAccountsCode
-    DisableFields txtBankDescription, txtBankAccountsCode
+    ClearFields txtID, txtDescription, txtAccountsCode
+    DisableFields txtDescription, txtAccountsCode
     UpdateButtons Me, 4, 1, 0, 0, 0, 1
 
 End Sub
 
 Private Sub grdBanks_DblClick(ByVal lRow As Long, ByVal lCol As Long, bRequestEdit As Boolean)
 
-    SeekRecord
+    SeekRecord grdBanks.CellValue(lRow, 1)
 
 End Sub
 
@@ -668,7 +767,7 @@ End Sub
 
 Private Sub grdBanks_KeyPress(KeyAscii As Integer)
 
-    If KeyAscii = vbKeyReturn Then SeekRecord
+    If KeyAscii = vbKeyReturn Then SeekRecord grdBanks.CellValue(grdBanks.CurRow, 1)
 
 End Sub
 
